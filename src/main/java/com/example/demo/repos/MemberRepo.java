@@ -34,4 +34,40 @@ public class MemberRepo {
         }
         return false;
     }
+    
+        public boolean quitNotDelete(int id, Date stopDate){
+        //bruges når medlemmer stopper i klubben, men vi gemmer deres data, til kontigent, tilskud er søgt og lign.
+        String deleteString = "UPDATE members SET isDeleted=1,stopDate=? WHERE id=?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(deleteString);
+            statement.setDate(1,new java.sql.Date(stopDate.getTime()));
+            statement.setInt(2,id);
+            statement.executeUpdate();
+            return true;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+        return false;
+    }
+
+    public boolean deletePermanently(int id){
+        //sletter permanent når deres data ikke længerer er vigtigt i forhold til kontigent osv.
+        String deleteString = "DELETE FROM members WHERE id=? AND isDeleted = 1";
+        int succes = 0;
+        try {
+            PreparedStatement statement = connection.prepareStatement(deleteString);
+            statement.setInt(1,id);
+            succes = statement.executeUpdate();  //burde returnerer 1 hvis der blev slettet
+            //det er ikke muligt at slette en, som stadig er aktiv, sikre at man ikke ved en fejl sletter
+            //medlemmer der stadig er aktive!
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        
+        return succes == 1;
+    }
+    
 }
