@@ -6,5 +6,31 @@
 </head>
 <body>
     <h1>Jonas er grim</h1>
+
+    <form action="/member/add" method="post">
+        <h1>Create member</h1>
+        <label>Fornavn:</label>
+        <input type="text" name="firstName" required placeholder="Fornavn">
+
+        <label>Efternavn:</label>
+        <input type="text" name="lastName" required placeholder="Efternavn">
+
+        <label>Køn (1 for kvinde, 0 for mand):</label>
+        <input type="number" name="isFemale" required max="1" min="0" step="1" placeholder="1 for kvinde, 0 for mand">
+
+        <label>Mail:</label>
+        <input type="text" name="mail" required placeholder="Mail">
+
+        <label>Start dato:</label>
+        <input type="date" name="startDate" required placeholder="Start dato">
+
+        <label>Fødselsdato:</label>
+        <input type="date" name="birthday" required placeholder="Fødselsdato">
+
+        <label>Telefonnummer:</label>
+        <input type="number" name="phoneNumber" required min="0" max="99999999" step="1" placeholder="Telefonnummer">
+
+        <input type="submit" name="submit form via POST" value="Opret medlem">
+    </form>
 </body>
 </html>
