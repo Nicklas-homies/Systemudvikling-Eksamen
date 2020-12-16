@@ -1,11 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Brøndby Bordtennis Club</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 </head>
+
 <body>
-    <h1>Jonas er grim</h1>
+<header>
+    <img src="headerphoto454.jpg" height="290" width="1800"/>
+</header>
+
+<div th:insert="fragments/menu :: menu"></div>
+
+<section>
+    <sidebar>
+        <ul>
+            <h2>Følg os her:</h2>
+            <li><p>
+            <a href="https://www.facebook.com/brondbybordtennis/">
+                <img src="http://brondbybordtennisclub.dk/wordpress/wp-content/uploads/Facebook-Icon-Resized-2.png" width="40">
+            </a>
+            <a href="https://www.youtube.com/channel/UCJ7luifmH0GFRba1ktKsfjw/videos">
+                <img src="http://brondbybordtennisclub.dk/wordpress/wp-content/uploads/YouTube-Icon-Table-tennis-ball-Resized-3.png" width="40">
+            </a>
+            <a href="https://www.instagram.com/brondbybordtennisclub/?hl=da">
+                <img src="http://brondbybordtennisclub.dk/wordpress/wp-content/uploads/Instagram_Logo.png" width="40">
+            </a>
+            </li></p>
+
+            <img src="http://brondbybordtennisclub.dk/wordpress/wp-content/uploads/BBC-Logo-Gennemsigtig-Resized.png" width="200" height="200">
+
+        </ul>
+    </sidebar>
+</section>
+
+<footer>
+    <a href="https://www.google.dk/maps/place/Br%C3%B8ndby+Bordtennis+Club/@55.6459023,12.4152098,17z/data=!3m1!4b1!4m5!3m4!1s0x465256dc93bd8f09:0xc6a5447234b28de0!8m2!3d55.6459023!4d12.4173985?hl=da">
+        <u>Adresse:</u>
+    </a>
+    <p>Brøndby Hallen (kælderen) </p>
+    <p>Brøndby Stadion 10        </p>
+    <p>2605 Brøndby              </p>
+</footer>
+
 
     <form action="/member/add" method="post">
         <h1>Create member</h1>
