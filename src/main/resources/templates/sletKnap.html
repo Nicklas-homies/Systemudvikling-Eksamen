@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Menu</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -14,7 +16,7 @@
     <!-- Knappen skal sættes ind på listen over brugerne -->
 
     <div id="deleteBtn">
-        <button th:onclick="'javascript:confirmDelete(\'' + ${member.getId()} + '\');'">Delete</button>
+        <button class="btn" th:onclick="'javascript:confirmDelete(\'' + ${member.getId()} + '\');'">Delete</button>
     </div>
 </div>
     <script type="text/javascript">
@@ -43,7 +45,7 @@
                 $("<input>",
                     {
                         type: 'submit',
-                        class:'confirm delete',
+                        class:'btn-del btn',
                         value: 'confirm',
                         name: 'submit'
                     }

@@ -45,7 +45,7 @@ public class HomeController {
     @GetMapping("/sletKnap")
     public String sletKnap(Model model){
         Member exampleMember = new Member(); //test member
-        exampleMember.setId(1);
+
 
         model.addAttribute("member", exampleMember);
 
