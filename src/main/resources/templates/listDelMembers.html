@@ -22,9 +22,9 @@
         </tr>
 
         <tr th:each="member : ${delMembers}">
-            <td th:text="member.getId()"></td>
-            <td th:text="member.getFirstName()"></td>
-            <td th:text="member.getLastName()"></td>
+            <td th:text="${member.getId()}"></td>
+            <td th:text="${member.getFirstName()}"></td>
+            <td th:text="${member.getLastName()}"></td>
             <div th:with="result = ${member.getIsFemale() == 1}">
                 <span th:if="${result}">
                     <td>Kvinde</td>
@@ -33,12 +33,11 @@
                     <td>Mand</td>
                 </span>
             </div>
-            <td th:text=""></td>
-            <td th:text="member.getMail()"></td>
-            <td th:text="member.getStartDate()"></td>
-            <td th:text="member.getBirthday()"></td>
-            <td th:text="member.getPhoneNumber()"></td>
-            <td th:text="member.getStopDate()"></td>
+            <td th:text="${member.getMail()}"></td>
+            <td th:text="${member.getStartDate()}"></td>
+            <td th:text="${member.getBirthday()}"></td>
+            <td th:text="${member.getPhoneNumber()}"></td>
+            <td th:text="${member.getStopDate()}"></td>
             <td>
                 <a th:href="@{/memberPermanentDelete/__${member.getId()}__}"><button>Slet permanent</button></a>
             </td>
