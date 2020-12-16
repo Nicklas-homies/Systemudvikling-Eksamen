@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Slettede medlemmer</title>
+</head>
+<body>
+
+    <h1>Slettede medlemmer</h1>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Fornavn</th>
+            <th>Efternavn</th>
+            <th>Køn</th>
+            <th>Mail</th>
+            <th>Start dato</th>
+            <th>Fødselsdag</th>
+            <th>Telefonnummer</th>
+            <th>Stop dato</th>
+        </tr>
+
+        <tr th:each="member : ${delMembers}">
+            <td th:text="member.getId()"></td>
+            <td th:text="member.getFirstName()"></td>
+            <td th:text="member.getLastName()"></td>
+            <div th:with="result = ${member.getIsFemale() == 1}">
+                <span th:if="${result}">
+                    <td>Kvinde</td>
+                </span>
+                <span th:unless="${result}">
+                    <td>Mand</td>
+                </span>
+            </div>
+            <td th:text=""></td>
+            <td th:text="member.getMail()"></td>
+            <td th:text="member.getStartDate()"></td>
+            <td th:text="member.getBirthday()"></td>
+            <td th:text="member.getPhoneNumber()"></td>
+            <td th:text="member.getStopDate()"></td>
+            <td>
+                <a th:href="@{/memberPermanentDelete/__${member.getId()}__}"><button>Slet permanent</button></a>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
