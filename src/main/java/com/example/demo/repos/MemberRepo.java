@@ -39,6 +39,7 @@ public class MemberRepo {
         return false;
     }
 
+
     public List<Member> getDeleted(){
         ArrayList<Member> delMembers = new ArrayList<>();
         try{
@@ -54,10 +55,10 @@ public class MemberRepo {
                 tempMember.setIsFemale(resultSet.getInt(4));
                 tempMember.setMail(resultSet.getString(5));
                 System.out.println(resultSet.getDate(6));
-                tempMember.setStartDate(resultSet.getDate(6));
-                tempMember.setBirthday(resultSet.getDate(7));
+                tempMember.setStartDate(new java.util.Date(resultSet.getDate(6).getTime()));
+                tempMember.setBirthday(new java.util.Date(resultSet.getDate(7).getTime()));
                 tempMember.setPhoneNumber(resultSet.getInt(8));
-                tempMember.setStopDate(resultSet.getDate(9));
+                tempMember.setStopDate(new java.util.Date(resultSet.getDate(9).getTime()));
                 tempMember.setIsDeleted(resultSet.getInt(10));
                 delMembers.add(tempMember);
             }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 @Controller
 public class MemberController {
@@ -33,5 +34,27 @@ public class MemberController {
     public String deletedMembers(Model model){
         model.addAttribute("delMembers", memberRepo.getDeleted());
         return "listDelMembers";
+    }
+
+    @GetMapping("/editMember")
+    public String editMember(Model model){
+
+
+
+        return "editMember";
+    }
+
+    //viser slet knap i funktion.
+    @GetMapping("/sletKnap")
+    public String sletKnap(Model model){
+        Member member = new Member();
+        member.setId(1);
+        model.addAttribute("member",member);
+        return "sletKnap";
+    }
+    @PostMapping("confirmDelete")
+    public String confirmDelete(@RequestParam Map<String,String> AllReqeustParam){
+        System.out.println(AllReqeustParam.entrySet());
+        return "redirect:/sletKnap";
     }
 }
