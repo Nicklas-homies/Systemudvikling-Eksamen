@@ -3,6 +3,7 @@ package com.example.demo.controllers;
 import com.example.demo.models.Member;
 import com.example.demo.repos.MemberRepo;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,6 +12,7 @@ import org.thymeleaf.model.ITemplateStart;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.SimpleTimeZone;
 
 @Controller
@@ -35,5 +37,25 @@ public class HomeController {
             e.printStackTrace();
         }
         return "confirmation";
+    }
+
+
+
+    //nedenstående er temp, bruges udelukkende for at sletKnap virker
+    @GetMapping("/sletKnap")
+    public String sletKnap(Model model){
+        Member exampleMember = new Member(); //test member
+        exampleMember.setId(1);
+
+        model.addAttribute("member", exampleMember);
+
+        return "sletKnap";
+    }
+    //nedenstående er temp, bruges udelukkende for at sletKnap virker
+    @PostMapping("/confirmDelete")
+    public String confirmDelete(@RequestParam Map<String,String> AllRequestParam){
+        System.out.println(AllRequestParam.entrySet());
+
+        return "redirect:/sletKnap";
     }
 }

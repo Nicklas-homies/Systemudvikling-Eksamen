@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="delete" class="container">
+    <h1>Slet medlem</h1>
+    <h3>Er du sikker på du vil slette et medlem?</h3>
+
+    <!-- Knappen skal sættes ind på listen over brugerne -->
+
+    <div id="deleteBtn">
+        <button th:onclick="'javascript:confirmDelete(\'' + ${member.getId()} + '\');'">Delete</button>
+    </div>
+</div>
+    <script type="text/javascript">
+
+        function confirmDelete(id){
+            console.log("hej") //lav en metode der give en ny knap confirm, not confirm!
+            console.log(id)
+            $("#deleteBtn").empty();
+            var form = $("<form/>",
+                {action:'/confirmDelete',
+                    method:'POST',
+                    id:'confirmDelete'
+                }
+            );
+            form.append(
+                $("<input>",
+                    {
+                        type:'hidden',
+                        value:id,
+                        name:'id',
+                        id:'id'
+                    }
+                )
+            );
+            form.append(
+                $("<input>",
+                    {
+                        type: 'submit',
+                        class:'confirm delete',
+                        value: 'confirm',
+                        name: 'submit'
+                    }
+                )
+            );
+            console.log(form)
+            $("#deleteBtn").append(form);
+        }
+    </script>
+
+</body>
+</html>
