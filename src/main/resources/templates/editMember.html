@@ -37,9 +37,34 @@
 </section>
 
 <div class="container">
+    <form action="/editedMember" method="post" >
+        <input th:type="hidden" th:value="${member.getId()}"  name="id">
+
+        <label for="firstName">First name</label>
+        <input th:type="text" th:value="${member.firstName}" id="firstName" name="firstName">
+
+        <label for="lastName">Last name</label>
+        <input th:type="text" th:value="${member.lastName}" id="lastName" name="lastName">
+
+        <label for="isFemale">Female, 0 for yes.</label>
+        <input th:type="number" th:value="${member.isFemale}" id="isFemale" name="isFemale">
+
+        <label for="mail">e-mail address</label>
+        <input th:type="mail" th:value="${member.mail}" id="mail" name="mail">
+
+        <label for="startDate">Date of member starting date</label>
+        <input th:type="date" th:value="*{{member.startDate}}" id="startDate" name="startDate">
+
+        <label for="birthday">Birthday</label>
+        <input th:type="date" th:value="*{{member.birthday}}" id="birthday" name="birthday">
+
+        <label for="phoneNumber">Phone Number</label>
+        <input th:type="number" th:value="${member.phoneNumber}" id="phoneNumber" name="phoneNumber">
 
 
-
+        <label for="submit">Submit</label>
+        <input th:type="submit" th:value="submit" id="submit" th:name="submit">
+    </form>
 </div>
 
 </body>

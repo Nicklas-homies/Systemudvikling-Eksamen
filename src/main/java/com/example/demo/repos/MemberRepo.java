@@ -41,7 +41,60 @@ public class MemberRepo {
         }
         return false;
     }
+    public boolean updateMemberInfo(Member member){
+        boolean succes = false;
 
+        String updateString = "UPDATE members SET firstName=?,lastName=?,isFemale=?,mail=?,startDate=?,birthday=?,phoneNumber=? where id=?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(updateString);
+            statement.setString(1,member.getFirstName());
+            statement.setString(2,member.getLastName());
+            statement.setInt(3,member.getIsFemale());
+            statement.setString(4,member.getMail());
+            statement.setDate(5,new java.sql.Date(member.getStartDate().getTime()));
+            statement.setDate(6,new java.sql.Date(member.getBirthday().getTime()));
+            statement.setInt(7, member.getPhoneNumber());
+            statement.setInt(8,member.getId());
+            statement.executeUpdate();
+            succes = true;
+        }
+        catch (SQLException e){
+            System.out.println("Error at create() MemberRepo");
+            System.out.println(e.getMessage());
+        }
+        return succes;
+    }
+
+    public List<Member> getAllMembers(){
+        List<Member> allMembers = new ArrayList<>();
+        try{
+            String selectString = "SELECT * FROM members"; //get all members string
+            PreparedStatement statement = connection.prepareStatement(selectString);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                Member tempMember = new Member();
+                tempMember.setId(resultSet.getInt(1));
+                tempMember.setFirstName(resultSet.getString(2));
+                tempMember.setLastName(resultSet.getString(3));
+                tempMember.setIsFemale(resultSet.getInt(4));
+                tempMember.setMail(resultSet.getString(5));
+                tempMember.setStartDate(new java.util.Date(resultSet.getDate(6).getTime()));
+                tempMember.setBirthday(new java.util.Date(resultSet.getDate(7).getTime()));
+                tempMember.setPhoneNumber(resultSet.getInt(8));
+                if (resultSet.getDate(9) != null){
+                    tempMember.setStopDate(new java.util.Date(resultSet.getDate(9).getTime()));
+                    tempMember.setIsDeleted(resultSet.getInt(10));
+                }
+
+                //could also use constructor to set settings for each user. Don't think it matters.
+                allMembers.add(tempMember);
+            }
+        }catch (SQLException e){
+            System.out.println("Error at delMembers() MemberRepo");
+            System.out.println(e.getMessage());
+        }
+        return allMembers;
+    }
 
     public List<Member> getDeleted(){
         ArrayList<Member> delMembers = new ArrayList<>();
@@ -71,7 +124,7 @@ public class MemberRepo {
         return delMembers;
     }
 
-        public boolean quitNotDelete(int id, Date stopDate){
+    public boolean quitNotDelete(int id, Date stopDate){
         //bruges når medlemmer stopper i klubben, men vi gemmer deres data, til kontigent, tilskud er søgt og lign.
         String deleteString = "UPDATE members SET isDeleted=1,stopDate=? WHERE id=?";
         try {

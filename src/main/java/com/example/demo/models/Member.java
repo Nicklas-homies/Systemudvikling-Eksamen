@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Member {
@@ -8,9 +10,12 @@ public class Member {
     private String lastName;
     private int isFemale;//Burde være boolean, men på den måde SQL virker er det en int i stedet 1 svarer til true, 0 til false
     private String mail;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date startDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthday;
     private int phoneNumber;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date stopDate;
     private int isDeleted;//Burde være boolean, men på den måde SQL virker er det en int i stedet 1 svarer til true, 0 til false
 
