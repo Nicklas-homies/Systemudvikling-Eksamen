@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 
 @Controller
 public class MemberController {
@@ -43,13 +43,17 @@ public class MemberController {
         return "listDelMembers";
     }
 
-    @GetMapping("members/editMember")
-    public String editMember(Model model){
+    @GetMapping("members/editMember/{id}")
+    public String editMember(Model model, @PathVariable int id){
         //later get member from html when person select who to edit.
         //for now added by just getting a random member
         List<Member> members = memberRepo.getAllMembers();
 
-        model.addAttribute("member", members.get(0));
+        for (Member member : members) {
+            if (member.getId() == id){
+                model.addAttribute("member", member);
+            }
+        }
         return "editMember";
     }
     @PostMapping("/editedMember")
@@ -61,7 +65,7 @@ public class MemberController {
         memberRepo.updateMemberInfo(member);
         //so do I just send the info and upate everything?
         //isn't that stupid?
-        return "redirect:/editMember";
+        return "redirect:/members/listMembers";
     }
 
     //viser slet knap i funktion.
@@ -73,9 +77,15 @@ public class MemberController {
         return "sletKnap";
     }
     @PostMapping("confirmDelete")
-    public String confirmDelete(@RequestParam Map<String,String> AllReqeustParam){
-        System.out.println(AllReqeustParam.entrySet());
-        return "redirect:/sletKnap";
+    public String confirmDelete(@RequestParam int id, @RequestParam String stopDate){
+        try {
+            Date tempStopDate = new SimpleDateFormat("yyyy-MM-dd").parse(stopDate);
+            memberRepo.quitNotDelete(id, tempStopDate);
+        }catch (ParseException e){
+            System.out.println("Error at confirmDelete() : MemberController");
+            System.out.println(e.getMessage());
+        }
+        return "redirect:/members/listMembers";
     }
 
     @GetMapping("members/listMembers")
