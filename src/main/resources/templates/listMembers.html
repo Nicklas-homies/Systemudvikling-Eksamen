@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Klub medlemmer</title>
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div th:insert="fragments/menu :: menu"></div>
+<div th:insert="fragments/sidebar :: sidebar"></div>
+
+<section>
+<article>
+    <form action="/listMembers" method="post">
+        <label>Mænd:</label>
+        <input type="checkbox" name="maleCheck" checked>
+        <input type="hidden" name="maleCheck" value="false">
+        <label>Kvinder:</label>
+        <input type="checkbox" name="femaleCheck" checked>
+        <input type="hidden" name="femaleCheck" value="false">
+        <label>Slettede medlemmer:</label>
+        <input type="checkbox" name="delMembers">
+        <input type="hidden" name="delMembers" value="false">
+        <input type="submit" value="Filtrer">
+    </form>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Fornavn</th>
+            <th>Efternavn</th>
+            <th>Køn</th>
+            <th>Mail</th>
+            <th>Start dato</th>
+            <th>Fødselsdag</th>
+            <th>Telefonnummer</th>
+            <th>Stop dato</th>
+        </tr>
+
+        <tr th:each="member : ${members}">
+            <td th:text="${member.getId()}"></td>
+            <td th:text="${member.getFirstName()}"></td>
+            <td th:text="${member.getLastName()}"></td>
+            <div th:with="result = ${member.getIsFemale() == 1}">
+                <span th:if="${result}">
+                    <td>Kvinde</td>
+                </span>
+                <span th:unless="${result}">
+                    <td>Mand</td>
+                </span>
+            </div>
+
+            <td th:text="${member.getMail()}"></td>
+            <td th:text="${member.getStartDate()}"></td>
+            <td th:text="${member.getBirthday()}"></td>
+            <td th:text="${member.getPhoneNumber()}"></td>
+            <td th:text="${member.getStopDate()}"></td>
+        </tr>
+    </table>
+</article></section>
+
+<div th:insert="fragments/footer :: footer"></div>
+
+</body>
+</html>

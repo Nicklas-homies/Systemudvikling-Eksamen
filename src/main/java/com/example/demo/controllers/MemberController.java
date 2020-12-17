@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,11 @@ import java.util.Map;
 public class MemberController {
 
     MemberRepo memberRepo = new MemberRepo();
+
+    @GetMapping("members/createMember")
+    public String addMemberPage(){
+        return "createMember";
+    }
 
     @PostMapping("/member/add")
     public String createMember(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int isFemale, @RequestParam String mail, @RequestParam String startDate, @RequestParam String birthday, @RequestParam int phoneNumber){
@@ -31,13 +37,13 @@ public class MemberController {
         return "confirmation";
     }
 
-    @GetMapping("/delMembers")
+    @GetMapping("members/delMembers")
     public String deletedMembers(Model model){
         model.addAttribute("delMembers", memberRepo.getDeleted());
         return "listDelMembers";
     }
 
-    @GetMapping("/editMember")
+    @GetMapping("members/editMember")
     public String editMember(Model model){
         //later get member from html when person select who to edit.
         //for now added by just getting a random member
@@ -70,5 +76,43 @@ public class MemberController {
     public String confirmDelete(@RequestParam Map<String,String> AllReqeustParam){
         System.out.println(AllReqeustParam.entrySet());
         return "redirect:/sletKnap";
+    }
+
+    @GetMapping("members/listMembers")
+    public String getListMembers(Model model){
+        List<Member> memberList = memberRepo.getAllMembers();
+        List<Member> realMemberList = new ArrayList<>();
+        for (Member member : memberList) {
+            if (member.getIsDeleted() != 1){
+                realMemberList.add(member);
+            }
+        }
+        model.addAttribute("members", realMemberList);
+        return "listMembers";
+    }
+
+    @PostMapping("/listMembers")
+    public String getListMembers(@RequestParam boolean maleCheck, @RequestParam boolean femaleCheck, @RequestParam boolean delMembers, Model model){
+        List<Member> memberList = memberRepo.getAllMembers();
+        List<Member> realMemberList = new ArrayList<>();
+        if (delMembers){
+            for (Member member : memberList) {
+                if (member.getIsDeleted() == 1){
+                    if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) {
+                        realMemberList.add(member);
+                    }
+                }
+            }
+        }else {
+            for (Member member : memberList) {
+                if (member.getIsDeleted() != 1) {
+                    if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) {
+                        realMemberList.add(member);
+                    }
+                }
+            }
+        }
+        model.addAttribute("members", realMemberList);
+        return "listMembers";
     }
 }

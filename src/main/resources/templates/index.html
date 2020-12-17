@@ -13,63 +13,8 @@
 </header>
 
 <div th:insert="fragments/menu :: menu"></div>
+<section th:insert="fragments/sidebar :: sidebar"></section>
 
-<section>
-    <sidebar>
-        <ul>
-            <h2>Følg os her:</h2>
-            <li><p>
-            <a href="https://www.facebook.com/brondbybordtennis/">
-                <img src="http://brondbybordtennisclub.dk/wordpress/wp-content/uploads/Facebook-Icon-Resized-2.png" width="40">
-            </a>
-            <a href="https://www.youtube.com/channel/UCJ7luifmH0GFRba1ktKsfjw/videos">
-                <img src="http://brondbybordtennisclub.dk/wordpress/wp-content/uploads/YouTube-Icon-Table-tennis-ball-Resized-3.png" width="40">
-            </a>
-            <a href="https://www.instagram.com/brondbybordtennisclub/?hl=da">
-                <img src="http://brondbybordtennisclub.dk/wordpress/wp-content/uploads/Instagram_Logo.png" width="40">
-            </a>
-            </li></p>
-
-            <img src="http://brondbybordtennisclub.dk/wordpress/wp-content/uploads/BBC-Logo-Gennemsigtig-Resized.png" width="200" height="200">
-
-        </ul>
-    </sidebar>
-</section>
-
-<footer>
-    <a href="https://www.google.dk/maps/place/Br%C3%B8ndby+Bordtennis+Club/@55.6459023,12.4152098,17z/data=!3m1!4b1!4m5!3m4!1s0x465256dc93bd8f09:0xc6a5447234b28de0!8m2!3d55.6459023!4d12.4173985?hl=da">
-        <u>Adresse:</u>
-    </a>
-    <p>Brøndby Hallen (kælderen) </p>
-    <p>Brøndby Stadion 10        </p>
-    <p>2605 Brøndby              </p>
-</footer>
-
-
-    <form action="/member/add" method="post">
-        <h1>Create member</h1>
-        <label>Fornavn:</label>
-        <input type="text" name="firstName" required placeholder="Fornavn">
-
-        <label>Efternavn:</label>
-        <input type="text" name="lastName" required placeholder="Efternavn">
-
-        <label>Køn (1 for kvinde, 0 for mand):</label>
-        <input type="number" name="isFemale" required max="1" min="0" step="1" placeholder="1 for kvinde, 0 for mand">
-
-        <label>Mail:</label>
-        <input type="text" name="mail" required placeholder="Mail">
-
-        <label>Start dato:</label>
-        <input type="date" name="startDate" required placeholder="Start dato">
-
-        <label>Fødselsdato:</label>
-        <input type="date" name="birthday" required placeholder="Fødselsdato">
-
-        <label>Telefonnummer:</label>
-        <input type="number" name="phoneNumber" required min="0" max="99999999" step="1" placeholder="Telefonnummer">
-
-        <input type="submit" name="submit form via POST" value="Opret medlem">
-    </form>
+<div th:insert="fragments/footer :: footer"></div>
 </body>
 </html>
