@@ -88,6 +88,12 @@ public class MemberController {
         return "redirect:/members/listMembers";
     }
 
+    @PostMapping("confirmPermDelete")
+    public String permConfirmDelete(@RequestParam int id){
+        memberRepo.deletePermanently(id);
+        return "redirect:/members/listMembers";
+    }
+
     @GetMapping("members/listMembers")
     public String getListMembers(Model model){
         List<Member> memberList = memberRepo.getAllMembers();

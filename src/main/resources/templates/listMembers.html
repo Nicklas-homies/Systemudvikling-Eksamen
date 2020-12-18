@@ -60,9 +60,18 @@
             <td th:text="${member.getPhoneNumber()}"></td>
             <td th:text="${member.getStopDate()}"></td>
             <td>
-                <button><a th:href="@{/members/editMember/__${member.getId()}__}">Rediger medlem</a></button>
-                <div th:id="${'deleteBtn' + member.getId()}">
-                    <button class="btn" th:onclick="'javascript:confirmDelete(\'' + ${member.getId()} + '\');'">Delete</button>
+                <div th:with="result = ${member.getIsDeleted() == 0}">
+                    <span th:if="${result}">
+                        <button class="btn-ed btn"><a style="text-decoration: none; color: white" th:href="@{/members/editMember/__${member.getId()}__}">Rediger medlem</a></button>
+                        <div th:id="${'deleteBtn' + member.getId()}">
+                            <button class="btn-del btn" th:onclick="'javascript:confirmDelete(\'' + ${member.getId()} + '\');'">Slet</button>
+                        </div>
+                    </span>
+                    <span th:unless="${result}">
+                        <div th:id="${'permDeleteBtn' + member.getId()}">
+                            <button class="btn-del btn" th:onclick="'javascript:permDelete(\'' + ${member.getId()} + '\');'">Slet permanent</button>
+                        </div>
+                    </span>
                 </div>
             </td>
         </tr>
@@ -74,8 +83,43 @@
 </body>
 <script type="text/javascript">
 
+    function permDelete(id){
+        //lav en metode der give en ny knap confirm, not confirm!
+        console.log(id)
+        var permDelBtn = 'permDeleteBtn' + id;
+        $("#" + permDelBtn).empty();
+        var form = $("<form/>",
+            {action:'/confirmPermDelete',
+                method:'POST',
+                id:'confirmPermDelete'
+            }
+        );
+        form.append(
+            $("<input>",
+                {
+                    type:'hidden',
+                    value:id,
+                    name:'id',
+                    id:'id'
+                }
+            )
+        );
+        form.append(
+            $("<input>",
+                {
+                    type: 'submit',
+                    class:'btn-del btn',
+                    value: 'confirm',
+                    name: 'submit'
+                }
+            )
+        );
+        console.log(form)
+        $("#" + permDelBtn).append(form);
+    }
+
     function confirmDelete(id){
-        console.log("hej") //lav en metode der give en ny knap confirm, not confirm!
+        //lav en metode der give en ny knap confirm, not confirm!
         console.log(id)
         var delBtn = 'deleteBtn' + id;
         $("#" + delBtn).empty();
