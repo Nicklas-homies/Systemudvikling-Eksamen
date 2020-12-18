@@ -44,7 +44,7 @@
             <li><a href="#">Medlemmer</a>
                 <!-- First Tier Drop Down -->
                 <ul>
-                    <li><a href="members/createMember" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/members') ? 'active':''}">Opret Medlem</a></li>
+                    <li><a href="/members/createMember" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/members') ? 'active':''}">Opret Medlem</a></li>
                     <li><a href="/members/listMembers" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/members') ? 'active':''}">Medlems Liste</a></li>
                 </ul>
             </li>

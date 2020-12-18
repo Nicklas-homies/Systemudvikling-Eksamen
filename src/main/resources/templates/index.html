@@ -13,8 +13,10 @@
 </header>
 
 <div th:insert="fragments/menu :: menu"></div>
-<section th:insert="fragments/sidebar :: sidebar"></section>
 
-<div th:insert="fragments/footer :: footer"></div>
+<div class="row">
+<div class="columnsidebar" th:insert="fragments/sidebar :: sidebar"></div>
+
+</div>
 </body>
 </html>

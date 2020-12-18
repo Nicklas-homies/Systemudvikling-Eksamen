@@ -10,40 +10,39 @@
 <body>
 
 <div th:insert="fragments/menu :: menu"></div>
-<div th:insert="fragments/sidebar :: sidebar"></div>
 
-<div class="container">
-    <form action="/editedMember" method="post" >
-        <input th:type="hidden" th:value="${member.getId()}"  name="id">
+<div class="row">
+    <div class="columnsidebar" th:insert="fragments/sidebar :: sidebar"></div>
 
-        <label for="firstName">First name</label>
-        <input th:type="text" th:value="${member.firstName}" id="firstName" name="firstName">
+    <div class="column container">
+        <form action="/editedMember" method="post" >
+            <input th:type="hidden" th:value="${member.getId()}"  name="id">
 
-        <label for="lastName">Last name</label>
-        <input th:type="text" th:value="${member.lastName}" id="lastName" name="lastName">
+            <label for="firstName">Fornavn</label>
+            <input th:type="text" th:value="${member.firstName}" id="firstName" name="firstName">
 
-        <label for="isFemale">Female, 0 for yes.</label>
-        <input th:type="number" th:value="${member.isFemale}" id="isFemale" name="isFemale">
+            <label for="lastName">Efternavn</label>
+            <input th:type="text" th:value="${member.lastName}" id="lastName" name="lastName">
 
-        <label for="mail">e-mail address</label>
-        <input th:type="mail" th:value="${member.mail}" id="mail" name="mail">
+            <label for="isFemale">Kvinde, 1 for ja.</label>
+            <input th:type="number" th:value="${member.isFemale}" id="isFemale" name="isFemale">
 
-        <label for="startDate">Date of member starting date</label>
-        <input th:type="date" th:value="*{{member.startDate}}" id="startDate" name="startDate">
+            <label for="mail">e-mail addresse</label>
+            <input th:type="mail" th:value="${member.mail}" id="mail" name="mail">
 
-        <label for="birthday">Birthday</label>
-        <input th:type="date" th:value="*{{member.birthday}}" id="birthday" name="birthday">
+            <label for="startDate">Indmeldingsdato</label>
+            <input th:type="date" th:value="*{{member.startDate}}" id="startDate" name="startDate">
 
-        <label for="phoneNumber">Phone Number</label>
-        <input th:type="number" th:value="${member.phoneNumber}" id="phoneNumber" name="phoneNumber">
+            <label for="birthday">Fødselsdag</label>
+            <input th:type="date" th:value="*{{member.birthday}}" id="birthday" name="birthday">
 
+            <label for="phoneNumber">Telefonnummer</label>
+            <input th:type="number" th:value="${member.phoneNumber}" id="phoneNumber" name="phoneNumber">
 
-        <label for="submit">Submit</label>
-        <input th:type="submit" th:value="submit" id="submit" th:name="submit">
-    </form>
+            <input th:type="submit" class="btn" th:value="Gem" id="submit" th:name="submit">
+        </form>
+    </div>
 </div>
-
-<div th:insert="fragments/footer :: footer"></div>
 
 </body>
 </html>

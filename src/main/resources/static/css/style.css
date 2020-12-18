@@ -4,17 +4,17 @@ html{
 }
 
 body {
-    font-family: arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    /*background-image: url("../motorhomeHomepage.jpg"); /*https://unsplash.com/photos/-Avc2AiE1_Q*/
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-color: black;
+}
+* {
+    box-sizing: border-box;
+}
+.row {
+    display: flex;
 }
 
 h1, h2, h3, h4, h5, h6, p, label {
-    color: black;
+    color: white;
 }
 
 #frontTxt {
@@ -373,4 +373,16 @@ footer {
     padding: 10px;
     text-align: left;
     color: white;
+}
+
+.column {
+    /*flex: 33%;*/
+    background-color: black;
+    flex-basis: 90%;
+    padding: 10px;
+}
+
+.columnsidebar {
+    /*flex: 33%;*/
+    flex-basis: 10%;
 }
