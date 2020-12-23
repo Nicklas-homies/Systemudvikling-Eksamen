@@ -6,11 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 
 @Controller
@@ -34,13 +32,7 @@ public class MemberController {
             System.out.println("Error at createMember() in HomeController");
             e.printStackTrace();
         }
-        return "confirmation";
-    }
-
-    @GetMapping("members/delMembers")
-    public String deletedMembers(Model model){
-        model.addAttribute("delMembers", memberRepo.getDeleted());
-        return "listDelMembers";
+        return "redirect:/members/createMember";
     }
 
     @GetMapping("members/editMember/{id}")
@@ -68,14 +60,6 @@ public class MemberController {
         return "redirect:/members/listMembers";
     }
 
-    //viser slet knap i funktion.
-    @GetMapping("/sletKnap")
-    public String sletKnap(Model model){
-        Member member = new Member();
-        member.setId(1);
-        model.addAttribute("member",member);
-        return "sletKnap";
-    }
     @PostMapping("confirmDelete")
     public String confirmDelete(@RequestParam int id, @RequestParam String stopDate){
         try {
@@ -111,6 +95,20 @@ public class MemberController {
     public String getListMembers(@RequestParam boolean maleCheck, @RequestParam boolean femaleCheck, @RequestParam boolean delMembers, Model model){
         List<Member> memberList = memberRepo.getAllMembers();
         List<Member> realMemberList = new ArrayList<>();
+
+
+        //this is test to see if age work
+        Date todayDate = java.util.Calendar.getInstance().getTime(); //used to get birthday
+        Member testMember = memberList.get(0);
+
+        DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        int d1 = Integer.parseInt(formatter.format(testMember.getBirthday()));
+        int d2 = Integer.parseInt(formatter.format(todayDate));
+
+        System.out.println((d2-d1)/10000); //
+        System.out.println(todayDate.compareTo(testMember.getBirthday()));
+        //end of test
+
         if (delMembers){
             for (Member member : memberList) {
                 if (member.getIsDeleted() == 1){
