@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.HelpMethods;
 import com.example.demo.models.Member;
 import com.example.demo.repos.MemberRepo;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class MemberController {
@@ -92,40 +95,28 @@ public class MemberController {
     }
 
     @PostMapping("/listMembers")
-    public String getListMembers(@RequestParam boolean maleCheck, @RequestParam boolean femaleCheck, @RequestParam boolean delMembers, Model model){
+    public String getListMembers(@RequestParam boolean maleCheck, @RequestParam boolean femaleCheck,
+                                 @RequestParam boolean delMembers, @RequestParam int maxAge,
+                                 @RequestParam int minAge, Model model){
+
         List<Member> memberList = memberRepo.getAllMembers();
         List<Member> realMemberList = new ArrayList<>();
 
-
-        //this is test to see if age work
-        Date todayDate = java.util.Calendar.getInstance().getTime(); //used to get birthday
-        Member testMember = memberList.get(0);
-
-        DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-        int d1 = Integer.parseInt(formatter.format(testMember.getBirthday()));
-        int d2 = Integer.parseInt(formatter.format(todayDate));
-
-        System.out.println((d2-d1)/10000); //
-        System.out.println(todayDate.compareTo(testMember.getBirthday()));
         //end of test
+        HelpMethods methods = new HelpMethods();
 
-        if (delMembers){
-            for (Member member : memberList) {
-                if (member.getIsDeleted() == 1){
-                    if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) {
-                        realMemberList.add(member);
-                    }
-                }
-            }
-        }else {
-            for (Member member : memberList) {
-                if (member.getIsDeleted() != 1) {
-                    if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) {
+
+        //kunne også sende hele denne her flotte if liste til en metode i helpmethods, men lige nu er den fin længde.
+        for (Member member : memberList) {
+            if (methods.addDeleted(delMembers,member.getIsDeleted())){
+                if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) {
+                    if (maxAge > methods.yearsBetween(member.getBirthday()) && minAge < methods.yearsBetween(member.getBirthday())){
                         realMemberList.add(member);
                     }
                 }
             }
         }
+
         model.addAttribute("members", realMemberList);
         return "listMembers";
     }
