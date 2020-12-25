@@ -41,11 +41,11 @@
             <li><a href="/" th:classappend="${#httpServletRequest.getRequestURI().matches('/') ? 'active' : ''}">Forside</a></li>
 <!--            <li><a href="/rentMotorhome/rent"  th:classappend="${#httpServletRequest.getRequestURI().startsWith('/rentMotorhome') ? 'active':''}">Nyheder</a></li>-->
 <!--            <li><a href="/activeMotorhome/available"  th:classappend="${#httpServletRequest.getRequestURI().startsWith('/activeMotorhome') ? 'active':''}">Stævner</a></li>-->
-            <li><a href="#">Medlemmer</a>
+            <li><a href="#"  th:classappend="${#httpServletRequest.getRequestURI().startsWith('/members') ? 'active':''}"  >Medlemmer</a>
                 <!-- First Tier Drop Down -->
                 <ul>
-                    <li><a href="/members/createMember" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/members') ? 'active':''}">Opret Medlem</a></li>
-                    <li><a href="/members/listMembers" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/members') ? 'active':''}">Medlems Liste</a></li>
+                    <li><a href="/members/createMember" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/members/createMember') ? 'active':''}">Opret Medlem</a></li>
+                    <li><a href="/members/listMembers" th:classappend="${#httpServletRequest.getRequestURI().startsWith('/members/listMembers') ? 'active':''}">Medlems Liste</a></li>
                 </ul>
             </li>
             <li><a href="#">Kalender</a>
