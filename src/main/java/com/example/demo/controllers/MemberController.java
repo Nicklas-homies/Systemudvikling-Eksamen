@@ -1,18 +1,15 @@
 package com.example.demo.controllers;
 
-import com.example.demo.HelpMethods;
+import com.example.demo.service.HelpMethods;
 import com.example.demo.models.Member;
 import com.example.demo.repos.MemberRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 @Controller
 public class MemberController {

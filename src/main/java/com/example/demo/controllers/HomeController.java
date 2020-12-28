@@ -10,4 +10,9 @@ public class HomeController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/calendar")
+    public String getCalendar(){
+        return "calendar";
+    }
 }
