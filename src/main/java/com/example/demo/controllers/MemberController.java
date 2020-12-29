@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.repos.LoginRepo;
 import com.example.demo.service.HelpMethods;
 import com.example.demo.models.Member;
 import com.example.demo.repos.MemberRepo;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -14,20 +16,21 @@ import java.util.*;
 @Controller
 public class MemberController {
 
+    LoginRepo login = new LoginRepo();
+
     MemberRepo memberRepo = new MemberRepo();
 
     @GetMapping("members/createMember")
-    public String addMemberPage(Model model){
+    public String addMemberPage(Model model, HttpSession httpSession) {
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
         model.addAttribute("hold",memberRepo.getHold());
         return "createMember";
     }
 
     @PostMapping("/member/add")
-    public String createMember(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int isFemale,
-                               @RequestParam String mail, @RequestParam String startDate,
-                               @RequestParam String birthday, @RequestParam int phoneNumber,
-                               @RequestParam String mail2, @RequestParam int phoneNumber2, @RequestParam int phoneNumber3,
-                               @RequestParam int hold, @RequestParam boolean pointStavne){
+    public String createMember(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int isFemale, @RequestParam String mail, @RequestParam String startDate, @RequestParam String birthday, @RequestParam int phoneNumber, @RequestParam String mail2, @RequestParam int phoneNumber2, @RequestParam int phoneNumber3,
+                               @RequestParam int hold, @RequestParam boolean pointStavne, Model model, HttpSession httpSession) {
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
         try {
             Date tempStartDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
             Date tempBirthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
@@ -41,10 +44,11 @@ public class MemberController {
     }
 
     @GetMapping("members/editMember/{id}")
-    public String editMember(Model model, @PathVariable int id){
+    public String editMember(Model model, @PathVariable int id, HttpSession httpSession){
         //later get member from html when person select who to edit.
         //for now added by just getting a random member
         List<Member> members = memberRepo.getAllMembers();
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
 
         for (Member member : members) {
             if (member.getId() == id){
@@ -54,7 +58,8 @@ public class MemberController {
         return "editMember";
     }
     @PostMapping("/editedMember")
-    public String editedMember(@RequestParam Map<String, String> AllRequestParam, Member member){
+    public String editedMember(@RequestParam Map<String, String> AllRequestParam, Member member, Model model, HttpSession httpSession) {
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
         //ok so I got the member, but dates crash. How to get that to work?00000000000000000000000000000000000000000000000000000000000000000
         System.out.println(AllRequestParam.entrySet());
         System.out.println(AllRequestParam.keySet());
@@ -66,7 +71,8 @@ public class MemberController {
     }
 
     @PostMapping("confirmDelete")
-    public String confirmDelete(@RequestParam int id, @RequestParam String stopDate){
+    public String confirmDelete(@RequestParam int id, @RequestParam String stopDate, Model model, HttpSession httpSession) {
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
         try {
             Date tempStopDate = new SimpleDateFormat("yyyy-MM-dd").parse(stopDate);
             memberRepo.quitNotDelete(id, tempStopDate);
@@ -78,13 +84,15 @@ public class MemberController {
     }
 
     @PostMapping("confirmPermDelete")
-    public String permConfirmDelete(@RequestParam int id){
+    public String permConfirmDelete(@RequestParam int id, Model model, HttpSession httpSession) {
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
         memberRepo.deletePermanently(id);
         return "redirect:/members/listMembers";
     }
 
     @GetMapping("members/listMembers")
-    public String getListMembers(Model model){
+    public String getListMembers(Model model, HttpSession httpSession) {
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
         List<Member> memberList = memberRepo.getAllMembers();
         List<Member> realMemberList = new ArrayList<>();
         for (Member member : memberList) {
@@ -99,7 +107,8 @@ public class MemberController {
     @PostMapping("/listMembers")
     public String getListMembers(@RequestParam boolean maleCheck, @RequestParam boolean femaleCheck,
                                  @RequestParam boolean delMembers, @RequestParam int maxAge,
-                                 @RequestParam int minAge, Model model){
+                                 @RequestParam int minAge, Model model, HttpSession httpSession) {
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
 
         List<Member> memberList = memberRepo.getAllMembers();
         List<Member> realMemberList = new ArrayList<>();

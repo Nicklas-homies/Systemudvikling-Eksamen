@@ -14,51 +14,62 @@
     <div class="columnsidebar" th:insert="fragments/sidebar :: sidebar"></div>
 
     <div class="column">
-        <form action="/member/add" method="post">
-            <h1>Create member</h1>
-            <label>Fornavn:</label>
-            <input type="text" name="firstName" required placeholder="Fornavn">
+        <div th:if="${loginstatus == 'no' || loginstatus == null}">
+            <form method="post" action="/login">
+                <label>Username</label>
+                <input type="text" name="username" id="name" placeholder="Username" required><br>
+                <label>Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required><br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <div th:if="${loginstatus == 'yes'}">
+            <form action="/member/add" method="post">
+                <h1>Create member</h1>
+                <label>Fornavn:</label>
+                <input type="text" name="firstName" required placeholder="Fornavn">
 
-            <label>Efternavn:</label>
-            <input type="text" name="lastName" required placeholder="Efternavn">
+                <label>Efternavn:</label>
+                <input type="text" name="lastName" required placeholder="Efternavn">
 
-            <label>Køn (1 for kvinde, 0 for mand):</label>
-            <input type="number" name="isFemale" required max="1" min="0" step="1" placeholder="1 for kvinde, 0 for mand">
+                <label>Køn (1 for kvinde, 0 for mand):</label>
+                <input type="number" name="isFemale" required max="1" min="0" step="1" placeholder="1 for kvinde, 0 for mand">
 
-            <label>Mail til forældre 1:</label>
-            <input type="text" name="mail" required placeholder="Mail">
+                <label>Mail til forældre 1:</label>
+                <input type="text" name="mail" required placeholder="Mail">
 
-            <label>Mail til forældre 2</label>
-            <input type="text" name="mail2" placeholder="Mail">
+                <label>Mail til forældre 2</label>
+                <input type="text" name="mail2" placeholder="Mail">
 
-            <label>Hold type</label>
-            <br>
-            <select name="hold">
-                <option value="0" selected disabled>Vælg hold</option>
-                <option th:each="holdString : ${hold}" th:value="${holdString.getId()}" th:text="${holdString.getName()}"></option>
-            </select>
-            <br>
+                <label>Hold type</label>
+                <br>
+                <select name="hold">
+                    <option value="0" selected disabled>Vælg hold</option>
+                    <option th:each="holdString : ${hold}" th:value="${holdString.getId()}" th:text="${holdString.getName()}"></option>
+                </select>
+                <br>
 
-            <label>Deltager i pointstævne</label>
-            <input type="checkbox" name="pointStavne" required>
+                <label>Deltager i pointstævne</label>
+                <input type="checkbox" name="pointStavne" required>
 
-            <label>Start dato:</label>
-            <input type="date" name="startDate" required placeholder="Start dato">
+                <label>Start dato:</label>
+                <input type="date" name="startDate" required placeholder="Start dato">
 
-            <label>Fødselsdato:</label>
-            <input type="date" name="birthday" required placeholder="Fødselsdato">
+                    <label>Fødselsdato:</label>
+                    <input type="date" name="birthday" required placeholder="Fødselsdato">
 
-            <label>Telefonnummer til forældre 1:</label>
-            <input type="number" name="phoneNumber" required min="0" max="99999999" step="1" placeholder="Telefonnummer">
+                <label>Telefonnummer til forældre 1:</label>
+                <input type="number" name="phoneNumber" required min="0" max="99999999" step="1" placeholder="Telefonnummer">
 
-            <label>Telefonnummer til forældre 2:</label>
-            <input type="number" name="phoneNumber2" min="0" max="99999999" step="1" placeholder="Telefonnummer">
+                <label>Telefonnummer til forældre 2:</label>
+                <input type="number" name="phoneNumber2" min="0" max="99999999" step="1" placeholder="Telefonnummer">
 
-            <label>Telefonnummer til medlem:</label>
-            <input type="number" name="phoneNumber3" min="0" max="99999999" step="1" placeholder="Telefonnummer">
+                <label>Telefonnummer til medlem:</label>
+                <input type="number" name="phoneNumber3" min="0" max="99999999" step="1" placeholder="Telefonnummer">
 
-            <input type="submit" class="btn" name="submit form via POST" value="Opret medlem">
-        </form>
+                <input type="submit" class="btn" name="submit form via POST" value="Opret medlem">
+            </form>
+        </div>
     </div>
 </div>
 

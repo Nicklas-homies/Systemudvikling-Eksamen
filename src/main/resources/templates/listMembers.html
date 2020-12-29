@@ -16,84 +16,95 @@
 
 
     <div class="column">
-        <form action="/listMembers" method="post">
-            <label>Mænd:</label>
-            <input type="checkbox" name="maleCheck" checked>
-            <input type="hidden" name="maleCheck" value="false">
-            <label>Kvinder:</label>
-            <input type="checkbox" name="femaleCheck" checked>
-            <input type="hidden" name="femaleCheck" value="false">
-            <label>Slettede medlemmer:</label>
-            <input type="checkbox" name="delMembers">
-            <input type="hidden" name="delMembers" value="false">
-            <label>Max alder</label>
-            <input type="number" name="maxAge" placeholder="100" value="100">
-            <label>Min alder</label>
-            <input type="number" name="minAge" placeholder="0" value="0">
+        <div th:if="${loginstatus == 'no' || loginstatus == null}">
+            <form method="post" action="/login">
+                <label>Username</label>
+                <input type="text" name="username" id="name" placeholder="Username" required><br>
+                <label>Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required><br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <div th:if="${loginstatus == 'yes'}">
+            <form action="/listMembers" method="post">
+                <label>Mænd:</label>
+                <input type="checkbox" name="maleCheck" checked>
+                <input type="hidden" name="maleCheck" value="false">
+                <label>Kvinder:</label>
+                <input type="checkbox" name="femaleCheck" checked>
+                <input type="hidden" name="femaleCheck" value="false">
+                <label>Slettede medlemmer:</label>
+                <input type="checkbox" name="delMembers">
+                <input type="hidden" name="delMembers" value="false">
+                <label>Max alder</label>
+                <input type="number" name="maxAge" placeholder="100" value="100">
+                <label>Min alder</label>
+                <input type="number" name="minAge" placeholder="0" value="0">
 
-            <input type="submit" class="btn" value="Filtrer">
+                <input type="submit" class="btn" value="Filtrer">
 
-        </form>
+            </form>
 
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Fornavn</th>
-                <th>Efternavn</th>
-                <th>Køn</th>
-                <th>Mail1</th>
-                <th>Mail2</th>
-                <th>Hold</th>
-                <th>pointStævne</th>
-                <th>Start dato</th>
-                <th>Fødselsdag</th>
-                <th>Telefonnummer1</th>
-                <th>Telefonnummer2</th>
-                <th>Telefonnummer3</th>
-                <th>Stop dato</th>
-                <th></th>
-            </tr>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Fornavn</th>
+                    <th>Efternavn</th>
+                    <th>Køn</th>
+                    <th>Mail1</th>
+                    <th>Mail2</th>
+                    <th>Hold</th>
+                    <th>pointStævne</th>
+                    <th>Start dato</th>
+                    <th>Fødselsdag</th>
+                    <th>Telefonnummer1</th>
+                    <th>Telefonnummer2</th>
+                    <th>Telefonnummer3</th>
+                    <th>Stop dato</th>
+                    <th></th>
+                </tr>
 
-            <tr th:each="member : ${members}">
-                <td th:text="${member.getId()}"></td>
-                <td th:text="${member.getFirstName()}"></td>
-                <td th:text="${member.getLastName()}"></td>
-                <div th:with="result = ${member.getIsFemale() == 1}">
-                    <span th:if="${result}">
-                        <td>Kvinde</td>
-                    </span>
-                    <span th:unless="${result}">
-                        <td>Mand</td>
-                    </span>
-                </div>
+                    <tr th:each="member : ${members}">
+                        <td th:text="${member.getId()}"></td>
+                        <td th:text="${member.getFirstName()}"></td>
+                        <td th:text="${member.getLastName()}"></td>
+                        <div th:with="result = ${member.getIsFemale() == 1}">
+                            <span th:if="${result}">
+                                <td>Kvinde</td>
+                            </span>
+                            <span th:unless="${result}">
+                                <td>Mand</td>
+                            </span>
+                        </div>
 
-                <td th:text="${member.getMail()}"></td>
-                <td th:text="${member.getMail2()}"></td>
-                <td th:text="${member.getHold()}"></td>
-                <td th:text="${member.isPointStavne()}"></td>
-                <td th:text="${member.getStartDate()}"></td>
-                <td th:text="${member.getBirthday()}"></td>
-                <td th:text="${member.getPhoneNumber()}"></td>
-                <td th:text="${member.getPhoneNumber2()}"></td>
-                <td th:text="${member.getPhoneNumber3()}"></td>
-                <td th:text="${member.getStopDate()}"></td>
-                <td>
-                    <div th:with="result = ${member.getIsDeleted() == 0}">
-                        <span th:if="${result}">
-                            <button class="btn-ed btn"><a style="text-decoration: none; color: white" th:href="@{/members/editMember/__${member.getId()}__}">Rediger medlem</a></button>
-                            <div th:id="${'deleteBtn' + member.getId()}">
-                                <button class="btn-del btn" th:onclick="'javascript:confirmDelete(\'' + ${member.getId()} + '\');'">Slet</button>
-                            </div>
-                        </span>
-                        <span th:unless="${result}">
-                            <div th:id="${'permDeleteBtn' + member.getId()}">
-                                <button class="btn-del btn" th:onclick="'javascript:permDelete(\'' + ${member.getId()} + '\');'">Slet permanent</button>
-                            </div>
-                        </span>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                    <td th:text="${member.getMail()}"></td>
+                    <td th:text="${member.getMail2()}"></td>
+                    <td th:text="${member.getHold()}"></td>
+                    <td th:text="${member.isPointStavne()}"></td>
+                    <td th:text="${member.getStartDate()}"></td>
+                    <td th:text="${member.getBirthday()}"></td>
+                    <td th:text="${member.getPhoneNumber()}"></td>
+                    <td th:text="${member.getPhoneNumber2()}"></td>
+                    <td th:text="${member.getPhoneNumber3()}"></td>
+                    <td th:text="${member.getStopDate()}"></td>
+                    <td>
+                        <div th:with="result = ${member.getIsDeleted() == 0}">
+                            <span th:if="${result}">
+                                <button class="btn-ed btn"><a style="text-decoration: none; color: white" th:href="@{/members/editMember/__${member.getId()}__}">Rediger medlem</a></button>
+                                <div th:id="${'deleteBtn' + member.getId()}">
+                                    <button class="btn-del btn" th:onclick="'javascript:confirmDelete(\'' + ${member.getId()} + '\');'">Slet</button>
+                                </div>
+                            </span>
+                            <span th:unless="${result}">
+                                <div th:id="${'permDeleteBtn' + member.getId()}">
+                                    <button class="btn-del btn" th:onclick="'javascript:permDelete(\'' + ${member.getId()} + '\');'">Slet permanent</button>
+                                </div>
+                            </span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 

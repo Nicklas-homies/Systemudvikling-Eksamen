@@ -17,6 +17,21 @@
 <div class="row">
 <div class="columnsidebar" th:insert="fragments/sidebar :: sidebar"></div>
 
+    <div class="column">
+        <div th:if="${loginstatus == 'no' || loginstatus == null}">
+            <form method="post" action="/login">
+                <label>Username</label>
+                <input type="text" name="username" id="name" placeholder="Username" required><br>
+                <label>Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required><br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <div th:if="${loginstatus == 'yes'}">
+            <p style="color: white">Your are logged in</p>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
