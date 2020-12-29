@@ -15,30 +15,40 @@
 
 
     <div class="column">
-        <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTz=0&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;
-src=rm5ju7b109b2p4b6t9m5mbqg0s%40group.calendar.google.com&amp;color=%235C1158&amp;
-src=ncuj1jvgqerpb6hc7vhflbp464%40group.calendar.google.com&amp;color=%23711616&amp;
-src=2djt68e3damrl55tsbh8difag0%40group.calendar.google.com&amp;color=%237A367A&amp;
-src=403kvrrdnqigu62v5kq7ctj9hk@group.calendar.google.com&amp;color=%232952A3&amp;
-src=6i4tlb4mf74es42oc4lgm4ish0@group.calendar.google.com&amp;color=%23B1365F&amp;
-src=eou4uurrn4p16fn6veu4cpo528@group.calendar.google.com&amp;color=%236B3304&amp;
-src=3cjakq7r8qdogpiajvg90okp1s@group.calendar.google.com&amp;color=%23856508&amp;
-src=6tmo153u1hngfdgijhfstuldi4%40group.calendar.google.com&amp;color=%2388880E&amp;
-src=01umk1itrnkh568niqb255rpfc%40group.calendar.google.com&amp;color=%23113F47&amp;
-src=sbleskana0589klvleudgj1cng%40group.calendar.google.com&amp;color=%234A716C&amp;
-src=7v99t6024nt0lub6j64v1tiqfk%40group.calendar.google.com&amp;color=%235B123B&amp;
-src=gg0bnj30121aj25umcvd8umnqg@group.calendar.google.com&amp;color=%23333333&amp;
-src=e7fhnu30155ukeiivg4ipg767k@group.calendar.google.com&amp;color=%2323164E&amp;
-src=qhpos06j1k8mnue20017g5thgs@group.calendar.google.com&amp;color=%235A6986&amp;
-src=jvc50b4ca3h3rtp1i3usg5f98c@group.calendar.google.com&amp;color=%23853104&amp;
-src=q2adsr7gbtm04urlg9m7ut095k@group.calendar.google.com&amp;color=%23691426&amp;
-src=sfgascbcbq9i3sqqoc1coe812g%40group.calendar.google.com&amp;color=%2328754E&amp;
-src=6g1ecnirqhq81c5hacre6vecuo%40group.calendar.google.com&amp;color=%23BE6D00&amp;
-src=d9641fgso6v6ds9bo9t0r2u50c%40group.calendar.google.com&amp;color=%23AB8B00&amp;
+        <div th:if="${loginstatus == 'no' || loginstatus == null}">
+            <form method="post" action="/login">
+                <label>Username</label>
+                <input type="text" name="username" id="name" placeholder="Username" required><br>
+                <label>Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required><br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <div th:if="${loginstatus == 'yes'}">
+            <iframe src="https://calendar.google.com/calendar/embed?showTitle=0&amp;showPrint=0&amp;showTz=0&amp;height=600&amp;wkst=2&amp;bgcolor=%23FFFFFF&amp;
+                src=rm5ju7b109b2p4b6t9m5mbqg0s%40group.calendar.google.com&amp;color=%235C1158&amp;
+                src=ncuj1jvgqerpb6hc7vhflbp464%40group.calendar.google.com&amp;color=%23711616&amp;
+                src=2djt68e3damrl55tsbh8difag0%40group.calendar.google.com&amp;color=%237A367A&amp;
+                src=403kvrrdnqigu62v5kq7ctj9hk@group.calendar.google.com&amp;color=%232952A3&amp;
+                src=6i4tlb4mf74es42oc4lgm4ish0@group.calendar.google.com&amp;color=%23B1365F&amp;
+                src=eou4uurrn4p16fn6veu4cpo528@group.calendar.google.com&amp;color=%236B3304&amp;
+                src=3cjakq7r8qdogpiajvg90okp1s@group.calendar.google.com&amp;color=%23856508&amp;
+                src=6tmo153u1hngfdgijhfstuldi4%40group.calendar.google.com&amp;color=%2388880E&amp;
+                src=01umk1itrnkh568niqb255rpfc%40group.calendar.google.com&amp;color=%23113F47&amp;
+                src=sbleskana0589klvleudgj1cng%40group.calendar.google.com&amp;color=%234A716C&amp;
+                src=7v99t6024nt0lub6j64v1tiqfk%40group.calendar.google.com&amp;color=%235B123B&amp;
+                src=gg0bnj30121aj25umcvd8umnqg@group.calendar.google.com&amp;color=%23333333&amp;
+                src=e7fhnu30155ukeiivg4ipg767k@group.calendar.google.com&amp;color=%2323164E&amp;
+                src=qhpos06j1k8mnue20017g5thgs@group.calendar.google.com&amp;color=%235A6986&amp;
+                src=jvc50b4ca3h3rtp1i3usg5f98c@group.calendar.google.com&amp;color=%23853104&amp;
+                src=q2adsr7gbtm04urlg9m7ut095k@group.calendar.google.com&amp;color=%23691426&amp;
+                src=sfgascbcbq9i3sqqoc1coe812g%40group.calendar.google.com&amp;color=%2328754E&amp;
+                src=6g1ecnirqhq81c5hacre6vecuo%40group.calendar.google.com&amp;color=%23BE6D00&amp;
+                src=d9641fgso6v6ds9bo9t0r2u50c%40group.calendar.google.com&amp;color=%23AB8B00&amp;
 
-;ctz=Europe%2FAmsterdam" style="border-width:0" width="95%" height="600" frameborder="0" scrolling="no"></iframe>
-<!--        <iframe src="https://calendar.google.com/calendar/embed?src=7ljdr7ll7sf7fabv7k09b4uskg%40group.calendar.google.com&ctz=Europe%2FCopenhagen" style="border: 0" width="95%" height="600" frameborder="0" scrolling="no"></iframe>-->
-
+                ;ctz=Europe%2FAmsterdam" style="border-width:0" width="95%" height="600" frameborder="0" scrolling="no"></iframe>
+    <!--        <iframe src="https://calendar.google.com/calendar/embed?src=7ljdr7ll7sf7fabv7k09b4uskg%40group.calendar.google.com&ctz=Europe%2FCopenhagen" style="border: 0" width="95%" height="600" frameborder="0" scrolling="no"></iframe>-->
+        </div>
     </div>
 </div>
 
