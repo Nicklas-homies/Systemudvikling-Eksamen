@@ -42,7 +42,7 @@ public class MemberRepo {
 
     public boolean create(Member member){
         try {
-            String insertString = "INSERT INTO members (firstName,lastName,isFemale,mail,mail2,hold,pointStavne,startDate,birthday,phoneNumber,phoneNumber2,phoneNumber3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String insertString = "INSERT INTO members (firstName,lastName,isFemale,mail,mail2,hold,pointStavne,startDate,birthday,phoneNumber,phoneNumber2,phoneNumber3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(insertString);
             statement.setString(1,member.getFirstName());
             statement.setString(2,member.getLastName());
@@ -50,12 +50,17 @@ public class MemberRepo {
             statement.setString(4,member.getMail());
             statement.setString(5,member.getMail2());
             statement.setInt(6,member.getHold());
-            statement.setBoolean(7,member.isPointStavne());
+            if (member.isPointStavne()){
+                statement.setBoolean(7,member.isPointStavne());
+            }
+            else {
+                statement.setBoolean(7,false);
+            }
             statement.setDate(8,new java.sql.Date(member.getStartDate().getTime()));
             statement.setDate(9,new java.sql.Date(member.getBirthday().getTime()));
             statement.setInt(10, member.getPhoneNumber());
             statement.setInt(11,member.getPhoneNumber2());
-            statement.setInt(11,member.getPhoneNumber3());
+            statement.setInt(12,member.getPhoneNumber3());
             statement.executeUpdate();
             return true;
         }
@@ -82,12 +87,13 @@ public class MemberRepo {
             statement.setDate(9,new java.sql.Date(member.getBirthday().getTime()));
             statement.setInt(10, member.getPhoneNumber());
             statement.setInt(11,member.getPhoneNumber2());
-            statement.setInt(11,member.getPhoneNumber3());
+            statement.setInt(12,member.getPhoneNumber3());
+            statement.setInt(13,member.getId());
             statement.executeUpdate();
             succes = true;
         }
         catch (SQLException e){
-            System.out.println("Error at create() MemberRepo");
+            System.out.println("Error at update() MemberRepo");
             System.out.println(e.getMessage());
         }
         return succes;

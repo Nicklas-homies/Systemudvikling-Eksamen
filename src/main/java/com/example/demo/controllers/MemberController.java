@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.models.Hold;
 import com.example.demo.service.HelpMethods;
 import com.example.demo.models.Member;
 import com.example.demo.repos.MemberRepo;
@@ -26,12 +27,28 @@ public class MemberController {
     public String createMember(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int isFemale,
                                @RequestParam String mail, @RequestParam String startDate,
                                @RequestParam String birthday, @RequestParam int phoneNumber,
-                               @RequestParam String mail2, @RequestParam int phoneNumber2, @RequestParam int phoneNumber3,
+                               @RequestParam String mail2, @RequestParam String phoneNumber2, @RequestParam String phoneNumber3,
                                @RequestParam int hold, @RequestParam boolean pointStavne){
+
+        int phoneNumber2Int;
+        int phoneNumber3Int;
+        if (phoneNumber2.equals(",0")){
+            phoneNumber2Int = 0;
+        }
+        else {
+            phoneNumber2Int = Integer.parseInt(phoneNumber2);
+        }
+        if (phoneNumber3.equals(",0")){
+            phoneNumber3Int = 0;
+        }
+        else {
+            phoneNumber3Int = Integer.parseInt(phoneNumber3);
+        }
+
         try {
             Date tempStartDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
             Date tempBirthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
-            Member tempMember = new Member(firstName,lastName,isFemale,mail,mail2,hold,pointStavne,tempStartDate,tempBirthday,phoneNumber,phoneNumber2,phoneNumber3);
+            Member tempMember = new Member(firstName,lastName,isFemale,mail,mail2,hold,pointStavne,tempStartDate,tempBirthday,phoneNumber,phoneNumber2Int,phoneNumber3Int);
             memberRepo.create(tempMember);
         }catch (ParseException e){
             System.out.println("Error at createMember() in HomeController");
@@ -45,12 +62,23 @@ public class MemberController {
         //later get member from html when person select who to edit.
         //for now added by just getting a random member
         List<Member> members = memberRepo.getAllMembers();
-
+        List<Hold> holdList = memberRepo.getHold();
         for (Member member : members) {
             if (member.getId() == id){
+                if (member.getHold() == 0){
+                    member.setHold(1); //in case member doesn't have hold
+                }
+                for (Hold holdet : holdList){
+                    if (member.getHold() == holdet.getId()){
+                        member.holdHold = holdet;
+                        System.out.println("hertil");
+                    }
+                }
+
                 model.addAttribute("member", member);
             }
         }
+        model.addAttribute("holdListe", holdList);
         return "editMember";
     }
     @PostMapping("/editedMember")
@@ -110,9 +138,9 @@ public class MemberController {
 
         //kunne også sende hele denne her flotte if liste til en metode i helpmethods, men lige nu er den fin længde.
         for (Member member : memberList) {
-            if (methods.addDeleted(delMembers,member.getIsDeleted())){
-                if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) {
-                    if (maxAge > methods.yearsBetween(member.getBirthday()) && minAge < methods.yearsBetween(member.getBirthday())){
+            if (methods.addDeleted(delMembers,member.getIsDeleted())){ //doesn't add memembers if their isDeleted doesn't match delMembers variable
+                if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) { //gender added/not added
+                    if (maxAge > methods.yearsBetween(member.getBirthday()) && minAge < methods.yearsBetween(member.getBirthday())){ //sort out wrong age groups
                         realMemberList.add(member);
                     }
                 }
@@ -120,6 +148,7 @@ public class MemberController {
         }
 
         model.addAttribute("members", realMemberList);
+        model.addAttribute("holdType", memberRepo.getHold());
         return "listMembers";
     }
 }

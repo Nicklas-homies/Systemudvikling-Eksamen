@@ -30,14 +30,29 @@
             <label for="mail">e-mail addresse</label>
             <input th:type="mail" th:value="${member.mail}" id="mail" name="mail">
 
+            <label>e-mail adresse 2</label>
+            <input th:type="mail" th:value="${member.mail2}" id="mail2" name="mail2">
+
+            <label>Vælg hold</label>
+            <select name="hold">
+                <option th:value="${member.getHold()}" th:text=" ${'nuværende hold: ' + member.holdHold.getName() + ''}"></option>
+                <option th:each="hold : ${holdListe}" th:value="${hold.getId()}" th:text="${hold.getName()}"></option>
+            </select>
+
             <label for="startDate">Indmeldingsdato</label>
             <input th:type="date" th:value="*{{member.startDate}}" id="startDate" name="startDate">
 
             <label for="birthday">Fødselsdag</label>
             <input th:type="date" th:value="*{{member.birthday}}" id="birthday" name="birthday">
 
-            <label for="phoneNumber">Telefonnummer</label>
+            <label>Telefonnummer til forældre 1</label>
             <input th:type="number" th:value="${member.phoneNumber}" id="phoneNumber" name="phoneNumber">
+
+            <label>Telefonnummer til forældre 2</label>
+            <input th:type="number" th:value="${member.phoneNumber}" id="phoneNumber2" name="phoneNumber2">
+
+            <label>Telefonnummer til medlem</label>
+            <input th:type="number" th:value="${member.phoneNumber}" id="phoneNumber3" name="phoneNumber3">
 
             <input th:type="submit" class="btn" th:value="Gem" id="submit" th:name="submit">
         </form>

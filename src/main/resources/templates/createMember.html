@@ -30,6 +30,7 @@
 
             <label>Mail til forældre 2</label>
             <input type="text" name="mail2" placeholder="Mail">
+            <input type="hidden" name="mail2" value="null">
 
             <label>Hold type</label>
             <br>
@@ -40,7 +41,8 @@
             <br>
 
             <label>Deltager i pointstævne</label>
-            <input type="checkbox" name="pointStavne" required>
+            <input type="checkbox" name="pointStavne">
+            <input type="hidden" name="pointStavne" value="false">
 
             <label>Start dato:</label>
             <input type="date" name="startDate" required placeholder="Start dato">
@@ -53,9 +55,11 @@
 
             <label>Telefonnummer til forældre 2:</label>
             <input type="number" name="phoneNumber2" min="0" max="99999999" step="1" placeholder="Telefonnummer">
+            <input type="hidden" name="phoneNumber2" value="0">
 
             <label>Telefonnummer til medlem:</label>
             <input type="number" name="phoneNumber3" min="0" max="99999999" step="1" placeholder="Telefonnummer">
+            <input type="hidden" name="phoneNumber3" value="0">
 
             <input type="submit" class="btn" name="submit form via POST" value="Opret medlem">
         </form>
