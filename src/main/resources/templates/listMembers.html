@@ -41,10 +41,15 @@
                 <th>Fornavn</th>
                 <th>Efternavn</th>
                 <th>Køn</th>
-                <th>Mail</th>
+                <th>Mail1</th>
+                <th>Mail2</th>
+                <th>Hold</th>
+                <th>pointStævne</th>
                 <th>Start dato</th>
                 <th>Fødselsdag</th>
-                <th>Telefonnummer</th>
+                <th>Telefonnummer1</th>
+                <th>Telefonnummer2</th>
+                <th>Telefonnummer3</th>
                 <th>Stop dato</th>
                 <th></th>
             </tr>
@@ -63,9 +68,14 @@
                 </div>
 
                 <td th:text="${member.getMail()}"></td>
+                <td th:text="${member.getMail2()}"></td>
+                <td th:text="${member.getHold()}"></td>
+                <td th:text="${member.isPointStavne()}"></td>
                 <td th:text="${member.getStartDate()}"></td>
                 <td th:text="${member.getBirthday()}"></td>
                 <td th:text="${member.getPhoneNumber()}"></td>
+                <td th:text="${member.getPhoneNumber2()}"></td>
+                <td th:text="${member.getPhoneNumber3()}"></td>
                 <td th:text="${member.getStopDate()}"></td>
                 <td>
                     <div th:with="result = ${member.getIsDeleted() == 0}">
