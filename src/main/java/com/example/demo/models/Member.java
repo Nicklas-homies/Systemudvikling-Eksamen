@@ -10,34 +10,55 @@ public class Member {
     private String lastName;
     private int isFemale;//Burde være boolean, men på den måde SQL virker er det en int i stedet 1 svarer til true, 0 til false
     private String mail;
+    private String mail2;
+    private int hold;
+    private boolean pointStavne;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date startDate;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthday;
     private int phoneNumber;
+    private int phoneNumber2;
+    private int phoneNumber3;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date stopDate;
     private int isDeleted;//Burde være boolean, men på den måde SQL virker er det en int i stedet 1 svarer til true, 0 til false
 
-    public Member(int id, String firstName, String lastName, int isFemale, String mail, Date startDate, Date birthday, int phoneNumber) {
+    public Member(int id, String firstName, String lastName, int isFemale, String mail, String mail2, int hold, boolean pointStavne,
+                  Date startDate, Date birthday, int phoneNumber, int phoneNumber2, int phoneNumber3) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.isFemale = isFemale;
         this.mail = mail;
+        this.mail2 = mail2;
+        this.hold = hold;
+        this.pointStavne = pointStavne;
         this.startDate = startDate;
         this.birthday = birthday;
         this.phoneNumber = phoneNumber;
+        this.phoneNumber2 = phoneNumber2;
+        this.phoneNumber3 = phoneNumber3;
+        this.stopDate = stopDate;
+        this.isDeleted = isDeleted;
     }
 
-    public Member(String firstName, String lastName, int isFemale, String mail, Date startDate, Date birthday, int phoneNumber) {
+    public Member(String firstName, String lastName, int isFemale, String mail, String mail2, int hold, boolean pointStavne, Date startDate,
+                  Date birthday, int phoneNumber, int phoneNumber2, int phoneNumber3) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.isFemale = isFemale;
         this.mail = mail;
+        this.mail2 = mail2;
+        this.hold = hold;
+        this.pointStavne = pointStavne;
         this.startDate = startDate;
         this.birthday = birthday;
         this.phoneNumber = phoneNumber;
+        this.phoneNumber2 = phoneNumber2;
+        this.phoneNumber3 = phoneNumber3;
+        this.stopDate = stopDate;
+        this.isDeleted = isDeleted;
     }
 
     public Member() {
@@ -57,6 +78,46 @@ public class Member {
                 ", stopDate=" + stopDate +
                 ", isDeleted=" + isDeleted +
                 '}';
+    }
+
+    public String getMail2() {
+        return mail2;
+    }
+
+    public void setMail2(String mail2) {
+        this.mail2 = mail2;
+    }
+
+    public int getHold() {
+        return hold;
+    }
+
+    public void setHold(int hold) {
+        this.hold = hold;
+    }
+
+    public boolean isPointStavne() {
+        return pointStavne;
+    }
+
+    public void setPointStavne(boolean pointStavne) {
+        this.pointStavne = pointStavne;
+    }
+
+    public int getPhoneNumber2() {
+        return phoneNumber2;
+    }
+
+    public void setPhoneNumber2(int phoneNumber2) {
+        this.phoneNumber2 = phoneNumber2;
+    }
+
+    public int getPhoneNumber3() {
+        return phoneNumber3;
+    }
+
+    public void setPhoneNumber3(int phoneNumber3) {
+        this.phoneNumber3 = phoneNumber3;
     }
 
     public int getId() {

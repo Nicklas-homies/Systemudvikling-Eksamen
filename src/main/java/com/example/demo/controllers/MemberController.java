@@ -17,16 +17,21 @@ public class MemberController {
     MemberRepo memberRepo = new MemberRepo();
 
     @GetMapping("members/createMember")
-    public String addMemberPage(){
+    public String addMemberPage(Model model){
+        model.addAttribute("hold",memberRepo.getHold());
         return "createMember";
     }
 
     @PostMapping("/member/add")
-    public String createMember(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int isFemale, @RequestParam String mail, @RequestParam String startDate, @RequestParam String birthday, @RequestParam int phoneNumber){
+    public String createMember(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int isFemale,
+                               @RequestParam String mail, @RequestParam String startDate,
+                               @RequestParam String birthday, @RequestParam int phoneNumber,
+                               @RequestParam String mail2, @RequestParam int phoneNumber2, @RequestParam int phoneNumber3,
+                               @RequestParam int hold, @RequestParam boolean pointStavne){
         try {
             Date tempStartDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDate);
             Date tempBirthday = new SimpleDateFormat("yyyy-MM-dd").parse(birthday);
-            Member tempMember = new Member(firstName,lastName,isFemale,mail,tempStartDate,tempBirthday,phoneNumber);
+            Member tempMember = new Member(firstName,lastName,isFemale,mail,mail2,hold,pointStavne,tempStartDate,tempBirthday,phoneNumber,phoneNumber2,phoneNumber3);
             memberRepo.create(tempMember);
         }catch (ParseException e){
             System.out.println("Error at createMember() in HomeController");

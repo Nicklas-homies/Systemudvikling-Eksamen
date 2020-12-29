@@ -1,5 +1,6 @@
 package com.example.demo.repos;
 
+import com.example.demo.models.Hold;
 import com.example.demo.models.Member;
 import com.example.demo.util.DatabaseConnectionManager;
 
@@ -18,17 +19,43 @@ public class MemberRepo {
         this.connection = DatabaseConnectionManager.getDatabaseConnection();
     }
 
+    public List<Hold> getHold(){
+        //kunne flytte denne her metode til et andet repo
+        List<Hold> hold = new ArrayList<>();
+            try {
+                String sqlString = "SELECT * FROM hold";
+                PreparedStatement statement = connection.prepareStatement(sqlString);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()){
+                    Hold holdItem = new Hold();
+                    holdItem.setId(resultSet.getInt(1));
+                    holdItem.setName(resultSet.getString(2));
+                    hold.add(holdItem);
+                }
+            }
+            catch (SQLException e){
+                System.out.println("Error at getHold() MemberRepo");
+                System.out.println(e.getMessage());
+            }
+        return hold;
+    }
+
     public boolean create(Member member){
         try {
-            String insertString = "INSERT INTO members (firstName,lastName,isFemale,mail,startDate,birthday,phoneNumber) VALUES (?,?,?,?,?,?,?)";
+            String insertString = "INSERT INTO members (firstName,lastName,isFemale,mail,mail2,hold,pointStavne,startDate,birthday,phoneNumber,phoneNumber2,phoneNumber3) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(insertString);
             statement.setString(1,member.getFirstName());
             statement.setString(2,member.getLastName());
             statement.setInt(3,member.getIsFemale());
             statement.setString(4,member.getMail());
-            statement.setDate(5,new java.sql.Date(member.getStartDate().getTime()));
-            statement.setDate(6,new java.sql.Date(member.getBirthday().getTime()));
-            statement.setInt(7, member.getPhoneNumber());
+            statement.setString(5,member.getMail2());
+            statement.setInt(6,member.getHold());
+            statement.setBoolean(7,member.isPointStavne());
+            statement.setDate(8,new java.sql.Date(member.getStartDate().getTime()));
+            statement.setDate(9,new java.sql.Date(member.getBirthday().getTime()));
+            statement.setInt(10, member.getPhoneNumber());
+            statement.setInt(11,member.getPhoneNumber2());
+            statement.setInt(11,member.getPhoneNumber3());
             statement.executeUpdate();
             return true;
         }
@@ -41,17 +68,21 @@ public class MemberRepo {
     public boolean updateMemberInfo(Member member){
         boolean succes = false;
 
-        String updateString = "UPDATE members SET firstName=?,lastName=?,isFemale=?,mail=?,startDate=?,birthday=?,phoneNumber=? where id=?";
+        String updateString = "UPDATE members SET firstName=?,lastName=?,isFemale=?,mail=?,mail2=?,hold=?,pointStavne=?,startDate=?,birthday=?,phoneNumber=?,phoneNumber2=?,phoneNumber3=? where id=?";
         try {
             PreparedStatement statement = connection.prepareStatement(updateString);
             statement.setString(1,member.getFirstName());
             statement.setString(2,member.getLastName());
             statement.setInt(3,member.getIsFemale());
             statement.setString(4,member.getMail());
-            statement.setDate(5,new java.sql.Date(member.getStartDate().getTime()));
-            statement.setDate(6,new java.sql.Date(member.getBirthday().getTime()));
-            statement.setInt(7, member.getPhoneNumber());
-            statement.setInt(8,member.getId());
+            statement.setString(5,member.getMail2());
+            statement.setInt(6,member.getHold());
+            statement.setBoolean(7,member.isPointStavne());
+            statement.setDate(8,new java.sql.Date(member.getStartDate().getTime()));
+            statement.setDate(9,new java.sql.Date(member.getBirthday().getTime()));
+            statement.setInt(10, member.getPhoneNumber());
+            statement.setInt(11,member.getPhoneNumber2());
+            statement.setInt(11,member.getPhoneNumber3());
             statement.executeUpdate();
             succes = true;
         }
@@ -75,12 +106,17 @@ public class MemberRepo {
                 tempMember.setLastName(resultSet.getString(3));
                 tempMember.setIsFemale(resultSet.getInt(4));
                 tempMember.setMail(resultSet.getString(5));
-                tempMember.setStartDate(new java.util.Date(resultSet.getDate(6).getTime()));
-                tempMember.setBirthday(new java.util.Date(resultSet.getDate(7).getTime()));
-                tempMember.setPhoneNumber(resultSet.getInt(8));
-                if (resultSet.getDate(9) != null){
-                    tempMember.setStopDate(new java.util.Date(resultSet.getDate(9).getTime()));
-                    tempMember.setIsDeleted(resultSet.getInt(10));
+                tempMember.setMail2(resultSet.getString(6));
+                tempMember.setHold(resultSet.getInt(7));
+                tempMember.setPointStavne(resultSet.getBoolean(8));
+                tempMember.setStartDate(new java.util.Date(resultSet.getDate(9).getTime()));
+                tempMember.setBirthday(new java.util.Date(resultSet.getDate(10).getTime()));
+                tempMember.setPhoneNumber(resultSet.getInt(11));
+                tempMember.setPhoneNumber2(resultSet.getInt(12));
+                tempMember.setPhoneNumber3(resultSet.getInt(13));
+                if (resultSet.getDate(14) != null){
+                    tempMember.setStopDate(new java.util.Date(resultSet.getDate(14).getTime()));
+                    tempMember.setIsDeleted(resultSet.getInt(15));
                 }
 
                 //could also use constructor to set settings for each user. Don't think it matters.
@@ -107,12 +143,18 @@ public class MemberRepo {
                 tempMember.setLastName(resultSet.getString(3));
                 tempMember.setIsFemale(resultSet.getInt(4));
                 tempMember.setMail(resultSet.getString(5));
-                tempMember.setStartDate(new java.util.Date(resultSet.getDate(6).getTime()));
-                tempMember.setBirthday(new java.util.Date(resultSet.getDate(7).getTime()));
-                tempMember.setPhoneNumber(resultSet.getInt(8));
-                tempMember.setStopDate(new java.util.Date(resultSet.getDate(9).getTime()));
-                tempMember.setIsDeleted(resultSet.getInt(10));
-                delMembers.add(tempMember);
+                tempMember.setMail2(resultSet.getString(6));
+                tempMember.setHold(resultSet.getInt(7));
+                tempMember.setPointStavne(resultSet.getBoolean(8));
+                tempMember.setStartDate(new java.util.Date(resultSet.getDate(9).getTime()));
+                tempMember.setBirthday(new java.util.Date(resultSet.getDate(10).getTime()));
+                tempMember.setPhoneNumber(resultSet.getInt(11));
+                tempMember.setPhoneNumber2(resultSet.getInt(12));
+                tempMember.setPhoneNumber3(resultSet.getInt(13));
+
+                tempMember.setStopDate(new java.util.Date(resultSet.getDate(14).getTime()));
+                tempMember.setIsDeleted(resultSet.getInt(15));
+
             }
         }catch (SQLException e){
             System.out.println("Error at delMembers() MemberRepo");
