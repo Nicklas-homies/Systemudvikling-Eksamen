@@ -34,7 +34,8 @@ public class MemberController {
                                @RequestParam String birthday, @RequestParam int phoneNumber,
                                @RequestParam String mail2, @RequestParam String phoneNumber2, @RequestParam String phoneNumber3,
                                @RequestParam int hold, @RequestParam boolean pointStavne,Model model, HttpSession httpSession) {
-        model.addAttribute("loginstatus", login.isLoggedIn(httpSession)){
+
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
 
         int phoneNumber2Int;
         int phoneNumber3Int;
@@ -79,7 +80,6 @@ public class MemberController {
                 for (Hold holdet : holdList){
                     if (member.getHold() == holdet.getId()){
                         member.holdHold = holdet;
-                        System.out.println("hertil");
                     }
                 }
 
@@ -136,25 +136,27 @@ public class MemberController {
         return "listMembers";
     }
 
-    @PostMapping("/listMembers")
+    @PostMapping("/listMembersFilter")
     public String getListMembers(@RequestParam boolean maleCheck, @RequestParam boolean femaleCheck,
                                  @RequestParam boolean delMembers, @RequestParam int maxAge,
-                                 @RequestParam int minAge, Model model, HttpSession httpSession) {
-        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
+                                 @RequestParam int minAge, @RequestParam boolean pointStavne, Model model, HttpSession httpSession) {
 
+        model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
+        System.out.println(pointStavne);
         List<Member> memberList = memberRepo.getAllMembers();
         List<Member> realMemberList = new ArrayList<>();
 
-        //end of test
         HelpMethods methods = new HelpMethods();
-
 
         //kunne også sende hele denne her flotte if liste til en metode i helpmethods, men lige nu er den fin længde.
         for (Member member : memberList) {
             if (methods.addDeleted(delMembers,member.getIsDeleted())){ //doesn't add memembers if their isDeleted doesn't match delMembers variable
                 if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) { //gender added/not added
                     if (maxAge > methods.yearsBetween(member.getBirthday()) && minAge < methods.yearsBetween(member.getBirthday())){ //sort out wrong age groups
-                        realMemberList.add(member);
+                        if (pointStavne == member.isPointStavne()){
+                            realMemberList.add(member);
+                        }
+
                     }
                 }
             }

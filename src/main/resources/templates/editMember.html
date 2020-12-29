@@ -43,6 +43,10 @@
                 <label>e-mail adresse 2</label>
                 <input th:type="mail" th:value="${member.mail2}" id="mail2" name="mail2">
 
+                <label>Pointstævne deltager</label>
+                <input type="checkbox" th:checked="${member.isPointStavne()}" value="true" name="pointStavne">
+                <input type="hidden" value="false" name="pointStavne"> <!-- når den ikke er tjekket, false, ikke med-->
+
                 <label>Vælg hold</label>
                 <select name="hold">
                     <option th:value="${member.getHold()}" th:text=" ${'nuværende hold: ' + member.holdHold.getName() + ''}"></option>

@@ -26,7 +26,7 @@
             </form>
         </div>
         <div th:if="${loginstatus == 'yes'}">
-            <form action="/listMembers" method="post">
+            <form action="/listMembersFilter" method="post">
                 <label>Mænd:</label>
                 <input type="checkbox" name="maleCheck" checked>
                 <input type="hidden" name="maleCheck" value="false">
@@ -40,6 +40,10 @@
                 <input type="number" name="maxAge" placeholder="100" value="100">
                 <label>Min alder</label>
                 <input type="number" name="minAge" placeholder="0" value="0">
+
+                <label>Kun pointstævne deltagerer</label>
+                <input type="checkbox" name="pointStavne">
+                <input type="hidden" name="pointStavne" value="false">
 
                 <input type="submit" class="btn" value="Filtrer">
 
