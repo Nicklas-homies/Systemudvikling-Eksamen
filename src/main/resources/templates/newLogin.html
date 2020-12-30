@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Opret nyt login</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+    p {
+        color: black;
+    }
+</style>
+<body>
+
+<div th:insert="fragments/menu :: menu"></div>
+
+<div class="row">
+    <div class="columnsidebar" th:insert="fragments/sidebar :: sidebar"></div>
+
+    <div class="column">
+        <div th:if="${adminStatus == 'no' || adminStatus == null}">
+            <h3 style="color: white" th:text="${adminMessage}"></h3>
+            <form method="post" action="/login">
+                <label>Username</label>
+                <input type="text" name="username" id="name" placeholder="Username" required><br>
+                <label>Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required><br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <div th:if="${adminStatus == 'yes'}">
+            <p style="color: white" th:text="${adminMessage}"></p>
+            <table>
+                <tr>
+                    <th>Brugernavn</th>
+                    <th>Admin</th>
+                    <th></th>
+                </tr>
+                <tr th:each="login : ${loginList}">
+                    <td th:text="${login.getUsername()}"></td>
+                    <td>
+                        <div th:with="result = ${login.getIsAdmin() == 1}">
+                            <span th:if="${result}">
+                                <p>Administrator</p>
+                            </span>
+                            <span th:unless="${result}">
+                                <p>Ikke administrator</p>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <div th:id="${'deleteLogin' + login.getId()}">
+                            <button class="btn btn-del" th:onclick="'javascript:confirmDelete(\'' + ${login.getId()} + '\');'">Slet login permanent</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            </br>
+            <div id="createDiv">
+                <button class="btn btn-create" th:onclick="'javascript:createLogin();'">Opret nyt login</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    function createLogin(){
+        $("#createDiv").empty();
+        var form = $("<form/>",
+            {action:'/createLoginPost',
+            method: 'POST',
+            id:'createLoginForm'
+            }
+        );
+        form.append(
+            $("<label>Brugernavn</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'text',
+                placeholder:'Brugernavn',
+                name:'username',
+                id:'username',
+                required:'true'
+            })
+        );
+        form.append(
+            $("<label>Adgangskode</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'password',
+                placeholder:'Adgangskode',
+                name:'password',
+                id:'password',
+                required:'true'
+            })
+        );
+        form.append(
+            $("<label>Administrator</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'checkbox',
+                name:'isAdmin',
+                id:'isAdmin'
+            })
+        );
+        form.append(
+            $("<input>", {
+                type:'hidden',
+                name:'isAdmin',
+                id:'isAdmin',
+                value:'false'
+            })
+        )
+        form.append(
+            $("<input>",
+                {
+                    type: 'submit',
+                    class:'btn btn-create',
+                    value: 'Opret login',
+                    name: 'submit'
+                }
+            )
+        );
+        console.log(form);
+        $("#createDiv").append(form);
+    }
+
+    function confirmDelete(id){
+        //lav en metode der give en ny knap confirm, not confirm!
+        console.log(id)
+        var delBtn = 'deleteLogin' + id;
+        $("#" + delBtn).empty();
+        var form = $("<form/>",
+            {action:'/confirmDeleteLogin',
+                method:'POST',
+                id:'confirmDelete'
+            }
+        );
+        form.append(
+            $("<input>",
+                {
+                    type:'hidden',
+                    value:id,
+                    name:'id',
+                    id:'id'
+                }
+            )
+        );
+        form.append(
+            $("<input>",
+                {
+                    type: 'submit',
+                    class:'btn btn-del',
+                    value: 'Bekræft',
+                    name: 'submit'
+                }
+            )
+        );
+        console.log(form)
+        $("#" + delBtn).append(form);
+    }
+</script>
+</html>

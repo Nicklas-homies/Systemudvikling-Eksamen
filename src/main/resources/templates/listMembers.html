@@ -74,18 +74,18 @@
                     <th></th>
                 </tr>
 
-                    <tr th:each="member : ${members}">
-                        <td th:text="${member.getId()}"></td>
-                        <td th:text="${member.getFirstName()}"></td>
-                        <td th:text="${member.getLastName()}"></td>
-                        <div th:with="result = ${member.getIsFemale() == 1}">
-                            <span th:if="${result}">
-                                <td>Kvinde</td>
-                            </span>
-                            <span th:unless="${result}">
-                                <td>Mand</td>
-                            </span>
-                        </div>
+                <tr th:each="member : ${members}">
+                    <td th:text="${member.getId()}"></td>
+                    <td th:text="${member.getFirstName()}"></td>
+                    <td th:text="${member.getLastName()}"></td>
+                    <div th:with="result = ${member.getIsFemale() == 1}">
+                        <span th:if="${result}">
+                            <td>Kvinde</td>
+                        </span>
+                        <span th:unless="${result}">
+                            <td>Mand</td>
+                        </span>
+                    </div>
 
                     <td th:text="${member.getMail()}"></td>
                     <td th:text="${member.getMail2()}"></td>
@@ -114,6 +114,17 @@
                     </td>
                 </tr>
             </table>
+
+            <h3>Mail liste:</h3>
+            <span th:each="member : ${members}">
+                <p th:text="${member.getMail() + ', '}">
+<!--                    <div th:with="result = ${member.getMail2() != ''}">-->
+                        <div th:if="${member.getMail2() != ''}">
+                            <span style="color: white" th:text="${member.getMail2() + ', '}"></span>
+                        </div>
+<!--                    </div>-->
+                </p>
+            </span>
         </div>
     </div>
 </div>

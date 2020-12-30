@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trænere</title>
+    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div th:insert="fragments/menu :: menu"></div>
+
+<div class="row" style="background-color: #dddddd">
+    <div class="columnsidebar" style="background-color: black" th:insert="fragments/sidebar :: sidebar"></div>
+
+
+    <div class="column">
+        <div th:if="${loginstatus == 'no' || loginstatus == null}">
+            <form method="post" action="/login">
+                <label>Username</label>
+                <input type="text" name="username" id="name" placeholder="Username" required><br>
+                <label>Password</label>
+                <input type="password" name="password" id="password" placeholder="Password" required><br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+        <div th:if="${loginstatus == 'yes'}">
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Fornavn</th>
+                    <th>Efternavn</th>
+                    <th>Timer</th>
+                    <th></th>
+                </tr>
+                <tr th:each="trainer : ${trainerList}">
+                    <td th:text="${trainer.getId()}"></td>
+                    <td th:text="${trainer.getFirstName()}"></td>
+                    <td th:text="${trainer.getLastName()}"></td>
+                    <td th:id="${'trainerHours' + trainer.getId()}" th:text="${trainer.getHours()}"></td>
+                    <td th:id="${'trainerBtn' + trainer.getId()}"><button class="btn btn-ed" th:onclick="'javascript:addHours(\'' + ${trainer.getId()} + '\');'">Opdater timer</button></td>
+                </tr>
+            </table>
+            </br>
+            <div id="resetDiv">
+                <button class="btn btn-del" th:onclick="'javascript:resetHours();'">Nulstil timer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    function resetHours(){
+        console.log("Reset hours called")
+        $("#resetDiv").empty();
+        var form = $("<form/>", {
+            action:'resetHours',
+            method: 'POST',
+            id:'resetHours'
+        });
+        form.append(
+            $("<input>", {
+                type: 'submit',
+                class:'btn btn-del',
+                value: 'Bekræft nulstil timer',
+                name: 'submit'
+            })
+        );
+        console.log(form)
+        $("#resetDiv").append(form);
+    }
+
+    function addHours(id){
+        console.log(id);
+        var addTd = 'trainerHours' + id;
+        var addBtn = 'trainerBtn' + id;
+        $("#" + addTd).empty();
+        $("#" + addBtn).empty();
+        var form = $("<form/>", {
+            action:'addHours',
+            method: 'POST',
+            id:'addHoursForm'
+        });
+        form.append(
+            $("<label style='color: black'>Timer der skal tilføjes</label>")
+        );
+        form.append(
+            $("<input>",
+                {
+                    type:'hidden',
+                    value:id,
+                    name:'id',
+                    id:'id'
+                }
+            )
+        );
+        form.append(
+            $("<input>",
+                {
+                    type:'number',
+                    value:0,
+                    name:'hoursToAdd',
+                    id:'hoursToAdd',
+                    required:'true',
+                    step:0.25
+                }
+            )
+        );
+        form.append(
+            $("<input>",
+                {
+                    type: 'submit',
+                    class:'btn btn-ed',
+                    value: 'Opdater timer',
+                    name: 'submit'
+                }
+            )
+        );
+        console.log(form)
+        $("#" + addTd).append(form);
+    }
+
+    // function confirmDelete(id){
+    //     //lav en metode der give en ny knap confirm, not confirm!
+    //     console.log(id)
+    //     var delBtn = 'deleteLogin' + id;
+    //     $("#" + delBtn).empty();
+    //     var form = $("<form/>",
+    //         {action:'/confirmDeleteLogin',
+    //             method:'POST',
+    //             id:'confirmDelete'
+    //         }
+    //     );
+    //     form.append(
+    //         $("<input>",
+    //             {
+    //                 type:'hidden',
+    //                 value:id,
+    //                 name:'id',
+    //                 id:'id'
+    //             }
+    //         )
+    //     );
+    //     form.append(
+    //         $("<input>",
+    //             {
+    //                 type: 'submit',
+    //                 class:'btn btn-del',
+    //                 value: 'Bekræft',
+    //                 name: 'submit'
+    //             }
+    //         )
+    //     );
+    //     console.log(form)
+    //     $("#" + delBtn).append(form);
+    // }
+</script>
+</html>
