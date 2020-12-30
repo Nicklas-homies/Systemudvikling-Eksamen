@@ -25,7 +25,6 @@ public class Member {
     private Date stopDate;
     private int isDeleted;//Burde være boolean, men på den måde SQL virker er det en int i stedet 1 svarer til true, 0 til false
 
-    public Hold holdHold; //used in frontend, sucks but couldn't find a better solution.
 
     public Member(int id, String firstName, String lastName, int isFemale, String mail, String mail2, int hold, boolean pointStavne,
                   Date startDate, Date birthday, int phoneNumber, int phoneNumber2, int phoneNumber3) {

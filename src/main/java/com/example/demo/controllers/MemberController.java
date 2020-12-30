@@ -77,12 +77,6 @@ public class MemberController {
                 if (member.getHold() == 0){
                     member.setHold(1); //in case member doesn't have hold
                 }
-                for (Hold holdet : holdList){
-                    if (member.getHold() == holdet.getId()){
-                        member.holdHold = holdet;
-                    }
-                }
-
                 model.addAttribute("member", member);
             }
         }
@@ -132,6 +126,8 @@ public class MemberController {
                 realMemberList.add(member);
             }
         }
+
+        model.addAttribute("holdList",memberRepo.getHold());
         model.addAttribute("members", realMemberList);
         return "listMembers";
     }
@@ -139,7 +135,7 @@ public class MemberController {
     @PostMapping("/listMembersFilter")
     public String getListMembers(@RequestParam boolean maleCheck, @RequestParam boolean femaleCheck,
                                  @RequestParam boolean delMembers, @RequestParam int maxAge,
-                                 @RequestParam int minAge, @RequestParam boolean pointStavne, Model model, HttpSession httpSession) {
+                                 @RequestParam int minAge, @RequestParam boolean pointStavne, @RequestParam int hold, Model model, HttpSession httpSession) {
 
         model.addAttribute("loginstatus", login.isLoggedIn(httpSession));
         System.out.println(pointStavne);
@@ -154,16 +150,17 @@ public class MemberController {
                 if (femaleCheck && member.getIsFemale() == 1 || maleCheck && member.getIsFemale() == 0) { //gender added/not added
                     if (maxAge > methods.yearsBetween(member.getBirthday()) && minAge < methods.yearsBetween(member.getBirthday())){ //sort out wrong age groups
                         if (pointStavne == member.isPointStavne()){
-                            realMemberList.add(member);
+                            if (hold == 0 || member.getHold() == hold){
+                                realMemberList.add(member);
+                            }
                         }
-
                     }
                 }
             }
         }
 
         model.addAttribute("members", realMemberList);
-        model.addAttribute("holdType", memberRepo.getHold());
+        model.addAttribute("holdList", memberRepo.getHold());
         return "listMembers";
     }
 }

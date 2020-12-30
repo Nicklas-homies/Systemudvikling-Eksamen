@@ -41,6 +41,12 @@
                 <label>Min alder</label>
                 <input type="number" name="minAge" placeholder="0" value="0">
 
+                <label>Hold sortering</label>
+                <select name="hold">
+                    <option value="0">Alle hold</option>
+                    <option th:each="hold : ${holdList}" th:value="${hold.getId()}" th:text="${hold.getName()}"></option>
+                </select>
+
                 <label>Kun pointstævne deltagerer</label>
                 <input type="checkbox" name="pointStavne">
                 <input type="hidden" name="pointStavne" value="false">
@@ -83,7 +89,7 @@
 
                     <td th:text="${member.getMail()}"></td>
                     <td th:text="${member.getMail2()}"></td>
-                    <td th:text="${member.getHold()}"></td>
+                    <td th:text="${holdList.get( member.getHold() - 1 ).getName()}"></td>
                     <td th:text="${member.isPointStavne()}"></td>
                     <td th:text="${member.getStartDate()}"></td>
                     <td th:text="${member.getBirthday()}"></td>

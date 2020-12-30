@@ -27,7 +27,10 @@ public class HelpMethods {
         int d2 = Integer.parseInt(formatter.format(todayDate));
 
         yearsBetween = (d2-d1)/10000;
-
+        if (yearsBetween <= 0){
+            System.out.println(yearsBetween);
+            yearsBetween = 1;
+        }
         return yearsBetween;
     }
 }

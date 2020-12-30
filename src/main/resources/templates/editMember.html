@@ -49,7 +49,7 @@
 
                 <label>Vælg hold</label>
                 <select name="hold">
-                    <option th:value="${member.getHold()}" th:text=" ${'nuværende hold: ' + member.holdHold.getName() + ''}"></option>
+                    <option th:value="${member.getHold()}" th:text=" ${holdListe.get( member.getHold() - 1 ).getName()}"></option>
                     <option th:each="hold : ${holdListe}" th:value="${hold.getId()}" th:text="${hold.getName()}"></option>
                 </select>
 
