@@ -17,6 +17,12 @@ public class Trainer {
         this.hours = hours;
     }
 
+    public Trainer(String firstName, String lastName, double hours) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.hours = hours;
+    }
+
     @Override
     public String toString() {
         return "Trainer{" +

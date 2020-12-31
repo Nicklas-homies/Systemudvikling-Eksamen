@@ -26,6 +26,10 @@
             </form>
         </div>
         <div th:if="${loginstatus == 'yes'}">
+            <div id="createTrainerDiv">
+                <button class="btn btn-create" th:onclick="'javascript:createTrainer()'">Opret træner</button>
+            </div>
+            </br>
             <table>
                 <tr>
                     <th>ID</th>
@@ -35,11 +39,15 @@
                     <th></th>
                 </tr>
                 <tr th:each="trainer : ${trainerList}">
-                    <td th:text="${trainer.getId()}"></td>
-                    <td th:text="${trainer.getFirstName()}"></td>
-                    <td th:text="${trainer.getLastName()}"></td>
+                    <td th:id="${'trainerId' + trainer.getId()}" th:text="${trainer.getId()}"></td>
+                    <td th:id="${'trainerFirstname' + trainer.getId()}" th:text="${trainer.getFirstName()}"></td>
+                    <td th:id="${'trainerLastname' + trainer.getId()}" th:text="${trainer.getLastName()}"></td>
                     <td th:id="${'trainerHours' + trainer.getId()}" th:text="${trainer.getHours()}"></td>
-                    <td th:id="${'trainerBtn' + trainer.getId()}"><button class="btn btn-ed" th:onclick="'javascript:addHours(\'' + ${trainer.getId()} + '\');'">Opdater timer</button></td>
+                    <td th:id="${'trainerBtn' + trainer.getId()}">
+                        <button class="btn btn-ed" th:onclick="'javascript:addHours(\'' + ${trainer.getId()} + '\');'">Opdater timer</button>
+                        <button class="btn btn-ed" th:onclick="'javascript:editTrainer(\'' + ${trainer.getId()} + '\');'">Rediger information</button>
+                        <button class="btn btn-del" th:onclick="'javascript:delTrainer(\'' + ${trainer.getId()} + '\');'">Slet træner</button>
+                    </td>
                 </tr>
             </table>
             </br>
@@ -52,6 +60,145 @@
 
 </body>
 <script type="text/javascript">
+
+    function editTrainer(id){
+        console.log(id);
+        var trainerFirstname = $("#trainerFirstname" + id).text();
+        var trainerLastname = $("#trainerLastname" + id).text();
+        var trainerHours = $("#trainerHours" + id).text();
+        console.log(trainerFirstname + " " + trainerLastname + " " + trainerHours);
+
+        var addBtn = 'trainerBtn' + id;
+        $("#" + addBtn).empty();
+        var form = $("<form/>", {
+            action:'editTrainer',
+            method: 'POST',
+            id:'editTrainerForm'
+        });
+        form.append(
+            $("<input>",
+                {
+                    type:'hidden',
+                    value:id,
+                    name:'id',
+                    id:'id'
+                }
+            )
+        );
+        form.append(
+            $("<label style='color: black'>Fornavn</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'text',
+                placeholder:'Fornavn',
+                required: 'true',
+                name:'firstname',
+                id:'firstname',
+                value: trainerFirstname
+            })
+        );
+        form.append(
+            $("<label style='color: black'>Efternavn</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'text',
+                placeholder:'Efternavn',
+                required: 'true',
+                name:'lastname',
+                id:'lastname',
+                value: trainerLastname
+            })
+        );
+        form.append(
+            $("<label style='color: black'>Timer</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'number',
+                placeholder:'Timer',
+                required: 'true',
+                name:'hours',
+                id:'hours',
+                min:0,
+                step:0.25,
+                value:trainerHours
+            })
+        );
+        form.append(
+            $("<input>",
+                {
+                    type: 'submit',
+                    class:'btn btn-ed',
+                    value: 'Gem ændringer',
+                    name: 'submit'
+                }
+            )
+        );
+        console.log(form);
+        $("#" + addBtn).append(form);
+    }
+
+    function createTrainer(){
+        console.log("createTrainer called");
+        $("#createTrainerDiv").empty();
+        var form = $("<form/>", {
+            action:'createTrainer',
+            method:'POST',
+            id:'createTrainerForm'
+        });
+        form.append(
+            $("<label>Fornavn</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'text',
+                placeholder:'Fornavn',
+                required: 'true',
+                name:'firstname',
+                id:'firstname'
+            })
+        );
+        form.append(
+            $("<label>Efternavn</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'text',
+                placeholder:'Efternavn',
+                required: 'true',
+                name:'lastname',
+                id:'lastname'
+            })
+        );
+        form.append(
+            $("<label>Timer</label>")
+        );
+        form.append(
+            $("<input>", {
+                type:'number',
+                placeholder:'Timer',
+                required: 'true',
+                name:'hours',
+                id:'hours',
+                min:0,
+                step:0.25
+            })
+        );
+        form.append(
+            $("<input>",
+                {
+                    type: 'submit',
+                    class:'btn btn-create',
+                    value: 'opret træner',
+                    name: 'submit'
+                }
+            )
+        );
+        console.log(form)
+        $("#createTrainerDiv").append(form);
+    }
 
     function resetHours(){
         console.log("Reset hours called")
@@ -123,39 +270,38 @@
         $("#" + addTd).append(form);
     }
 
-    // function confirmDelete(id){
-    //     //lav en metode der give en ny knap confirm, not confirm!
-    //     console.log(id)
-    //     var delBtn = 'deleteLogin' + id;
-    //     $("#" + delBtn).empty();
-    //     var form = $("<form/>",
-    //         {action:'/confirmDeleteLogin',
-    //             method:'POST',
-    //             id:'confirmDelete'
-    //         }
-    //     );
-    //     form.append(
-    //         $("<input>",
-    //             {
-    //                 type:'hidden',
-    //                 value:id,
-    //                 name:'id',
-    //                 id:'id'
-    //             }
-    //         )
-    //     );
-    //     form.append(
-    //         $("<input>",
-    //             {
-    //                 type: 'submit',
-    //                 class:'btn btn-del',
-    //                 value: 'Bekræft',
-    //                 name: 'submit'
-    //             }
-    //         )
-    //     );
-    //     console.log(form)
-    //     $("#" + delBtn).append(form);
-    // }
+    function delTrainer(id){
+        console.log(id)
+        var trainerTd = 'trainerBtn' + id;
+        $("#" + trainerTd).empty();
+        var form = $("<form/>",
+            {action:'/confirmDeleteTrainer',
+                method:'POST',
+                id:'confirmDelete'
+            }
+        );
+        form.append(
+            $("<input>",
+                {
+                    type:'hidden',
+                    value:id,
+                    name:'id',
+                    id:'id'
+                }
+            )
+        );
+        form.append(
+            $("<input>",
+                {
+                    type: 'submit',
+                    class:'btn btn-del',
+                    value: 'Bekræft',
+                    name: 'submit'
+                }
+            )
+        );
+        console.log(form)
+        $("#" + trainerTd).append(form);
+    }
 </script>
 </html>

@@ -38,4 +38,22 @@ public class TrainerController {
         }
         return "redirect:/hours";
     }
+
+    @PostMapping("/createTrainer")
+    public String createTrainer(@RequestParam String firstname, @RequestParam String lastname, @RequestParam double hours){
+        trainerRepo.create(new Trainer(firstname, lastname, hours));
+        return "redirect:/hours";
+    }
+
+    @PostMapping("/confirmDeleteTrainer")
+    public String delTrainer(@RequestParam int id){
+        trainerRepo.deleteTrainer(id);
+        return "redirect:/hours";
+    }
+
+    @PostMapping("/editTrainer")
+    public String editTrainer(@RequestParam String firstname, @RequestParam String lastname, @RequestParam double hours, @RequestParam int id){
+        trainerRepo.updateTrainerInfo(new Trainer(id, firstname, lastname, hours));
+        return "redirect:/hours";
+    }
 }
