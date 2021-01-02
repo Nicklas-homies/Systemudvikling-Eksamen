@@ -26,7 +26,7 @@
             </form>
         </div>
         <div th:if="${loginstatus == 'yes'}">
-            <form action="/listMembersFilter" method="post">
+            <form id="filterForm" method="post">
                 <label>Mænd:</label>
                 <input type="checkbox" name="maleCheck" checked>
                 <input type="hidden" name="maleCheck" value="false">
@@ -36,6 +36,9 @@
                 <label>Slettede medlemmer:</label>
                 <input type="checkbox" name="delMembers">
                 <input type="hidden" name="delMembers" value="false">
+                <label>Kun pointstævne deltagerer</label>
+                <input type="checkbox" name="pointStavne">
+                <input type="hidden" name="pointStavne" value="false">
                 <label>Max alder</label>
                 <input type="number" name="maxAge" placeholder="100" value="100">
                 <label>Min alder</label>
@@ -47,12 +50,11 @@
                     <option th:each="hold : ${holdList}" th:value="${hold.getId()}" th:text="${hold.getName()}"></option>
                 </select>
 
-                <label>Kun pointstævne deltagerer</label>
-                <input type="checkbox" name="pointStavne">
-                <input type="hidden" name="pointStavne" value="false">
-
-                <input type="submit" class="btn" value="Filtrer">
-
+                <p></p>
+                <input type="submit" formaction="/listMembersFilter" class="btn" value="Filtrer">
+                <p></p>
+                <input type="submit" formaction="/members/export/excel" class="btn btn-ed" value="Filtrer og eksporter til excel">
+                <p></p>
             </form>
 
             <table>

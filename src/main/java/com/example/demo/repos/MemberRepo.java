@@ -157,10 +157,9 @@ public class MemberRepo {
                 tempMember.setPhoneNumber(resultSet.getInt(11));
                 tempMember.setPhoneNumber2(resultSet.getInt(12));
                 tempMember.setPhoneNumber3(resultSet.getInt(13));
-
                 tempMember.setStopDate(new java.util.Date(resultSet.getDate(14).getTime()));
                 tempMember.setIsDeleted(resultSet.getInt(15));
-
+                delMembers.add(tempMember);
             }
         }catch (SQLException e){
             System.out.println("Error at delMembers() MemberRepo");
